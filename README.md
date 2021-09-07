@@ -34,19 +34,19 @@ To use Open-Map on your Website get your [Access-Token](https://docs.mapbox.com/
 
 ## Geolocation-Field
 
-![enter image description here](https://via.placeholder.com/300x200.png/)
+![Geolocation-Field](https://github.com/youngcut/kirby-map/raw/6c95c30865bfde58e2fcb9c9b22c556b6047e90c/lib/img/geolocation_screenshot.png)
 
 Here's a example how to use the Geolocation-Field on your blueprint:
 
 ```yaml
 
     mygeolocation:
-	    label: My Geolocation
-	    type: geolocation
-	    default:
-		    name: "Berlin"
-		    Lat: 13.38333
-		    Lng: 52.51667
+        label: My Geolocation
+        type: geolocation
+        default:
+            name: "Berlin"
+            Lat: 13.38333
+            Lng: 52.51667
 	    
 ```
 
@@ -64,17 +64,17 @@ Here's a example how to use the Geolocation-Field on your blueprint:
 
 ## Map-Block
 
-![](https://via.placeholder.com/1211x744.png/)
+![Map-Block](https://github.com/youngcut/kirby-map/raw/6c95c30865bfde58e2fcb9c9b22c556b6047e90c/lib/img/maps_screenshot.png)
 
 With the Map-Block, you can setup your Map with a live preview. Here's how you can add this Block to your Blueprint:
 
 ```yaml
 
-	fields:
-	  text:
-	    type: blocks
-	    fieldsets:
-	      - maps
+    fields:
+        text:
+            type: blocks
+            fieldsets:
+                - maps
 
 ```
 To customize the default block, copy following files...
@@ -88,7 +88,7 @@ To customize the default block, copy following files...
 
 In your Map-Block, you can add as many markers you want. Try to place your Marker in the visible preview.
 
-![](https://via.placeholder.com/1209x1059.png/)
+![Map-Block-Marker](https://github.com/youngcut/kirby-map/raw/6c95c30865bfde58e2fcb9c9b22c556b6047e90c/lib/img/marker_screenshot.png)
 
 **How to use it in your Template?**
 

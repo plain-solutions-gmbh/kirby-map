@@ -1,0 +1,76 @@
+name: map.blocks.marker.name
+icon: marker
+
+fields:
+  coors:
+    label: map.blocks.marker.location.name
+    type: geolocation
+
+  image:
+    label: map.blocks.marker.marker.name
+    type: files
+    uploads: image
+    multiple: false
+    info: "{{ file.dimensions }}"
+    width: 1/2
+
+  anchor:
+    label: map.blocks.marker.anchor.name
+    type: select
+    default: bottom
+    options:
+      center:
+        de: Mitte zentriert
+        en: center center
+      top:
+        de: Mitte oben
+        en: center top
+      bottom:
+        de: Mitte unten
+        en: center bottom
+      left:
+        de: Mitte links
+        en: center left
+      right:
+        de: Mitte rechts
+        en: center right
+      top-left:
+        de: Oben links
+        en: top left
+      top-right:
+        de: Oben rechts
+        en: top right
+      bottom-left:
+        de: Unten links
+        en: bottom left
+      bottom-right:
+        de: Unten recht
+        en: bottom right
+    width: 1/2
+
+  size:
+    label: map.blocks.marker.marker.size
+    type: range
+    min: 0
+    max: 100
+    after: "%"
+
+  haspopup:
+    label: maps.blocks.marker.popup.toggle
+    type: toggle
+
+  popup:
+    label: maps.blocks.marker.popup.name
+    type: textarea
+    size: medium
+    when:
+      haspopup: true
+
+  popupoffset:
+    type: range
+    min: -100
+    max: +100
+    default: 60
+    when:
+      haspopup: true
+

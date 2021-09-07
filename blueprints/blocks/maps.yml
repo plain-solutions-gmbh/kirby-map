@@ -1,0 +1,34 @@
+name: maps.blocks.maps.name
+icon: map
+fields:
+  style:
+    label: maps.blocks.maps.style.name
+    type: select
+    default: "light-v10"
+    options:
+      - streets-v11
+      - outdoors-v11
+      - light-v10
+      - dark-v10
+      - satellite-v9
+      - satellite-streets-v11
+      - navigation-day-v1
+      - navigation-night-v1
+
+  center:
+    label: maps.blocks.maps.center.name
+    type: geolocation
+    width: 1/2
+
+  zoom:
+    Label: maps.blocks.maps.zoom.name
+    type: range
+    min: 1
+    max: 20
+    width: 1/2
+
+  marker:
+    label: maps.blocks.maps.marker.name
+    type: blocks
+    fieldsets:
+      - marker

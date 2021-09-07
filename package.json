@@ -1,0 +1,18 @@
+{
+    "scripts": {
+        "dev": "parcel watch src/index.js --no-source-maps -d ./",
+        "build": "parcel build src/index.js --no-source-maps --experimental-scope-hoisting -d ./"
+    },
+    "posthtml": {
+        "recognizeSelfClosing": true
+    },
+    "dependencies": {
+        "vue": "^2.6.14",
+        "vue-hot-reload-api": "^2.3.4"
+    },
+    "devDependencies": {
+        "@vue/component-compiler-utils": "^3.2.2",
+        "sass": "^1.35.1",
+        "vue-template-compiler": "^2.6.14"
+    }
+}

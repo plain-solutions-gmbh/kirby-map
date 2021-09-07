@@ -1,0 +1,29 @@
+.map-wrapper {
+  position: relative;
+}
+.map-wrapper .map {
+  min-height: 400px;
+  overflow: hidden;
+}.marker-item {
+  display: flex;
+  align-items: center;
+}
+.marker-item > .img-wrapper {
+  height: 38px;
+  width: 38px;
+}
+.marker-item > .img-wrapper img {
+  height: 100%;
+  width: 100%;
+  object-fit: contain;
+}
+
+.desc-wrapper {
+  padding-left: 15px;
+}
+.desc-wrapper > p:last-child {
+  color: #ccc;
+  font-style: italic;
+}.k-geolocation-search > header {
+  display: none;
+}

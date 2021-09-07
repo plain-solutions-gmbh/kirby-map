@@ -1,0 +1,13 @@
+{
+    "name": "microman/map",
+    "description": "Geolocation-Field & Map-Block: All you need to set up a Map into your Website with Kirby CMS.",
+    "type": "kirby-plugin",
+    "license": "MIT",
+    "authors": [{
+        "name": "Roman Gsponer",
+        "email": "rg@microman.ch"
+    }],
+    "require": {
+        "getkirby/composer-installer": "^1.1"
+    }
+}

@@ -18,24 +18,24 @@
 
 
         <?php $coors = $marker->coors()->toLocation() ?>
+        <?php $markerid = 'elMarker' . substr($marker->id(), 0, 8) ?>
 
-        let elMarker = null,
-            popupoffset = 30
+        let <?= $markerid ?> = null
 
         <?php if ($image = $marker->image()->toFile()) : ?>
 
-            elMarker = document.createElement('div');
-            elMarker.className = 'marker';
-            elMarker.style.backgroundImage = "url('<?= $image->url() ?>')";
-            elMarker.style.width = "<?= $image->width() / 100 * $marker->size()->int() ?>px";
-            elMarker.style.height = "<?= $image->height() / 100 * $marker->size()->int() ?>px";
-            elMarker.style.backgroundSize = '100%';
+            <?= $markerid ?> = document.createElement('div');
+            <?= $markerid ?>.className = 'marker';
+            <?= $markerid ?>.style.backgroundImage = "url('<?= $image->url() ?>')";
+            <?= $markerid ?>.style.width = "<?= $image->width() / 100 * $marker->size()->int() ?>px";
+            <?= $markerid ?>.style.height = "<?= $image->height() / 100 * $marker->size()->int() ?>px";
+            <?= $markerid ?>.style.backgroundSize = '100%';
 
         <?php endif ?>
 
-        let curMarker = new mapboxgl.Marker({
+        new mapboxgl.Marker({
                 anchor: '<?= $marker->anchor() ?>',
-                element: elMarker
+                element: <?= $markerid ?>
             })
             .setLngLat([<?= str_replace(',', '.', $coors->lng()) ?>, <?= str_replace(',', '.', $coors->lat()) ?>])
             .addTo(map)

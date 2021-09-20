@@ -40,7 +40,7 @@
             .setLngLat([<?= str_replace(',', '.', $coors->lng()) ?>, <?= str_replace(',', '.', $coors->lat()) ?>])
             .addTo(map)
 
-        <?php if ($marker->popup()->isNotEmpty()) : ?>
+        <?php if ($marker->haspopup()->isTrue()) : ?>
                 .setPopup(new mapboxgl.Popup({
                         offset: <?= $marker->popupoffset() ?>
                     })

@@ -9047,6 +9047,7 @@ var _default = {
         style: "mapbox://styles/mapbox/" + (this.style || this.options.defaultStyle),
         zoom: this.zoom || 1
       });
+      this.map.scrollZoom.disable();
       this.setMarker(this.marker);
     },
     setMarker: function setMarker(markerdata) {

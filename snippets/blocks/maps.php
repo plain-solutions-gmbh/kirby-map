@@ -10,11 +10,12 @@
     var map = new mapboxgl.Map({
         container: 'map_<?= $block->id() ?>',
         style: 'mapbox://styles/mapbox/<?= $block->style() ?>',
-        center: [<?= $center->lng() ?>, <?= $center->lat() ?>],
+        center: [<?= str_replace(',', '.', $center->lng()) ?>, <?= str_replace(',', '.', $center->lat()) ?>],
         zoom: <?= ($block->zoom()->isNotEmpty()) ? $block->zoom() : 12 ?>
     });
 
     <?php foreach ($block->marker()->toBlocks() as $marker) : ?>
+
 
         <?php $coors = $marker->coors()->toLocation() ?>
 
@@ -32,12 +33,11 @@
 
         <?php endif ?>
 
-
         let curMarker = new mapboxgl.Marker({
                 anchor: '<?= $marker->anchor() ?>',
                 element: elMarker
             })
-            .setLngLat([<?= $coors->lng() ?>, <?= $coors->lat() ?>])
+            .setLngLat([<?= str_replace(',', '.', $coors->lng()) ?>, <?= str_replace(',', '.', $coors->lat()) ?>])
             .addTo(map)
 
         <?php if ($marker->popup()->isNotEmpty()) : ?>

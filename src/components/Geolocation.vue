@@ -6,11 +6,11 @@
     :disabled="disabled"
   >
     <k-text-field
+      ref="name"
       class="k-geolocation-search"
       type="text"
       theme="field"
-      ref="name"
-      :value="this['search']"
+      :value="search"
       icon="search"
       @input="searchLocation"
     />
@@ -26,7 +26,7 @@
         >
           <span
             v-html="
-              $t('maps.field.geolocation.' + option.type) + ': ' + option.name
+              $t(`maps.field.geolocation.${option.type}`) + ': ' + option.name
             "
           />
         </k-dropdown-item>
@@ -34,28 +34,28 @@
     </k-dropdown>
 
     <k-input
+      ref="name"
       type="text"
       theme="field"
-      ref="name"
-      :value="this.value.name"
+      :value="location.name"
       :before="$t('maps.field.geolocation.name')"
       @input="setValue($event, 'name')"
     />
 
     <k-input
+      ref="lat"
       type="text"
       theme="field"
-      ref="lat"
-      :value="this.value.lat"
+      :value="location.lat"
       :before="$t('maps.field.geolocation.lat')"
       @input="setValue($event, 'lat')"
     />
 
     <k-input
+      ref="lng"
       type="text"
       theme="field"
-      ref="lng"
-      :value="this.value.lng"
+      :value="location.lng"
       :before="$t('maps.field.geolocation.lng')"
       @input="setValue($event, 'lng')"
     />
@@ -66,35 +66,61 @@
 
 <script>
 export default {
+  props: {
+    token: {
+      type: String,
+      required: true,
+    },
+    label: {
+      type: String,
+      required: true,
+    },
+    value: {
+      type: Object,
+      default() {
+        return {
+          name: undefined,
+          lat: undefined,
+          lng: undefined,
+        };
+      },
+    },
+    required: Boolean,
+    disabled: Boolean,
+    default: {
+      type: Object,
+      default() {
+        return {
+          name: "",
+          lat: 0,
+          lng: 0,
+        };
+      },
+    },
+  },
+
   data() {
     return {
-      geodata: [],
-      geolocation: "",
+      geoData: [],
       error: "",
     };
   },
 
   computed: {
     mapId() {
-      return "map-" + this._uid;
+      return `map-${this._uid}`;
     },
 
-    value() {
-      if (this._props.value === null) {
-        if (this.default === undefined)
-          this.default = { name: undefined, lat: undefined, lng: undefined };
-
-        return {
-          name: this.default.name || "",
-          lat: this.default.lat || 0,
-          lng: this.default.lng || 0,
-        };
-      }
-      return this._props.value;
+    location() {
+      return {
+        name: this.value?.name ?? this.default?.name ?? "",
+        lat: this.value?.lat ?? this.default?.lat ?? 0,
+        lng: this.value?.lng ?? this.default?.lng ?? 0,
+      };
     },
 
     dropdownOptions() {
-      return this.geodata.map((el) => {
+      return this.geoData.map((el) => {
         return {
           name: el.place_name,
           type: el.place_type[0],
@@ -104,48 +130,36 @@ export default {
       });
     },
   },
-  props: {
-    token: String,
-    label: String,
-    value: String,
-    required: Boolean,
-    disabled: Boolean,
-    default: Object,
-  },
-  mounted() {
-    if (this.default === null)
-      this.default = { name: undefined, lat: undefined, lng: undefined };
-  },
+
   methods: {
-    searchLocation(e) {
-      if (e.length > 0) {
-        fetch(
-          "https://api.mapbox.com/geocoding/v5/mapbox.places/" +
-            e +
-            ".json?types=address,country,postcode,place,locality&limit=5&access_token=" +
-            this.token
-        )
-          .then((response) => response.json())
-          .then((response) => {
-            this.error = "";
-            if (response.features !== undefined) {
-              let toShow = response.features.slice(0, 6);
-              if (toShow.length > 0) {
-                this.geodata = toShow;
-                this.$refs.dropdown.open();
-              } else {
-                this.error = this.$t("maps.field.geolocation.error.empty");
-                this.$refs.dropdown.close();
-              }
-            } else {
-              this.error = response.message;
-              this.$refs.dropdown.close();
-            }
-          })
-          .catch((error) => {
+    async searchLocation(evt) {
+      if (!evt) {
+        this.$refs.dropdown.close();
+        return;
+      }
+
+      try {
+        const response = await fetch(
+          `https://api.mapbox.com/geocoding/v5/mapbox.places/${evt}.json?types=address,country,postcode,place,locality&limit=5&access_token=${this.token}`
+        );
+        const data = await response.json();
+        this.error = "";
+
+        if (data.features) {
+          const toShow = data.features.slice(0, 6);
+
+          if (toShow) {
+            this.geoData = toShow;
+            this.$refs.dropdown.open();
+          } else {
+            this.error = this.$t("maps.field.L.error.empty");
             this.$refs.dropdown.close();
-          });
-      } else {
+          }
+        } else {
+          this.error = data.message;
+          this.$refs.dropdown.close();
+        }
+      } catch (err) {
         this.$refs.dropdown.close();
       }
     },
@@ -156,51 +170,41 @@ export default {
       this.$emit("input", selection);
     },
 
-    setValue(value, key, writeMsg = true) {
-      this.error = "";
-
+    setValue(value, key) {
       let v = {
-        name: key == "name" ? value : this.value.name,
-        lat: key == "lat" ? value : this.value.lat,
-        lng: key == "lng" ? value : this.value.lng,
+        name: key === "name" ? value : this.location.name,
+        lat: key === "lat" ? value : this.location.lat,
+        lng: key === "lng" ? value : this.location.lng,
       };
 
-      if (
-        this.required &&
-        (v.name.length == 0 || v.lat.length == 0 || v.lng.length == 0)
-      ) {
-        this.error = writeMsg ? this.$t("maps.field.geolocation.error") : "";
-        return false;
+      if (this.required && (!v.name || !v.lat || !v.lng)) {
+        this.error = this.$t("maps.field.geolocation.error");
+        return;
       }
 
-      if (v.name !== undefined && v.name.length == 0) {
-        this.error = writeMsg
-          ? this.$t("maps.field.geolocation.lat.error")
-          : "";
-        return false;
+      if (!v.name) {
+        this.error = this.$t("maps.field.geolocation.lat.error");
+        return;
       }
 
-      if (v.lat === undefined || isNaN(v.lat) || Math.abs(v.lat) > 90) {
-        this.error = writeMsg
-          ? this.$t("maps.field.geolocation.lat.error")
-          : "";
-        return false;
+      if (!v.lat || isNaN(v.lat) || Math.abs(v.lat) > 90) {
+        this.error = this.$t("maps.field.geolocation.lat.error");
+        return;
       }
 
-      if (v.lng === undefined || isNaN(v.lng) || Math.abs(v.lng) > 180) {
-        this.error = writeMsg
-          ? this.$t("maps.field.geolocation.lng.error")
-          : "";
-        return false;
+      if (!v.lng || isNaN(v.lng) || Math.abs(v.lng) > 180) {
+        this.error = this.$t("maps.field.geolocation.lng.error");
+        return;
       }
 
+      this.error = "";
       this.$emit("input", v);
     },
   },
 };
 </script>
 
-<style lang="scss">
+<style>
 .k-geolocation-search > header {
   display: none;
 }

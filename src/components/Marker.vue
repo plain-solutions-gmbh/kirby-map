@@ -5,7 +5,7 @@
     </div>
 
     <div class="marker-item-description">
-      <p>{{ description ?? $t("empty") }}</p>
+      <p>{{ description || $t("empty") }}</p>
       <p>{{ coordinates }}</p>
     </div>
   </div>

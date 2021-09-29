@@ -4,21 +4,21 @@
 
 **2-in-1-Plugin**: All you need to set up a map on your website. This plugin includes two rich feature sets:
 
-- **Geolocation-Field:**
+- 🔎 **Geolocation-Field:**
   - Search for your location and get results (name, lat, long) into fields
 
-- **Map-Block:**
+- 🗺 **Map-Block:**
   - Built-in Mapbox instance
-  - Set the following values for...
-    - Design
-    - (Center)-Location
-    - Zoom
-  - Insert unlimited numbers of 📍 marker
-    - Location
-    - Icon
-    - Anchor of the Icon (Top-Left, Center-Center, Bottom-Right, etc...)
-    - Size of the Icon (100% = Original-Size)
-    - Popup: Text and Horizontal Offset to the Location
+  - Set the following values for…
+    - design
+    - (center) location
+    - zoom
+  - Insert unlimited numbers of 📍 markers
+    - location
+    - icon
+    - anchor of the icon (`top left`, `center center`, `bottom right`, etc.)
+    - size of the Icon (100% = original size)
+    - popup: text and horizontal offset to the location
 
 > This plugin is free to use and published under the MIT license. If you use this plugin for commercial purposes and you want to show your appreciation, don't hesitate to [support me with a donation](https://www.paypal.com/donate?hosted_button_id=LBCLZVHS4K2R6).
 

@@ -1,5 +1,6 @@
 name: maps.blocks.maps.name
 icon: map
+
 fields:
   style:
     label: maps.blocks.maps.style.name

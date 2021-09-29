@@ -25,7 +25,7 @@ export default {
     coordinates() {
       return this.content.coors
         ? `${this.content.coors.lat},${this.content.coors.lng}`
-        : "";
+        : null;
     },
   },
 };

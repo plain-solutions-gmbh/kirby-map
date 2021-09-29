@@ -25,6 +25,7 @@ fields:
     type: range
     min: 1
     max: 20
+    default: 1
     width: 1/2
 
   marker:

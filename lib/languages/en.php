@@ -1,7 +1,7 @@
 <?php
 
 return [
-	# Map Block
+	# Map block
 	'maps.blocks.maps.name'    							=> 'Map',
 	'maps.blocks.maps.style.name' 						=> 'Style',
 	'maps.blocks.maps.center.name'    					=> 'Center',
@@ -16,7 +16,7 @@ return [
 	'maps.blocks.marker.popup.name'						=> 'Popup Content',
 	'maps.blocks.marker.popup.offset'					=> 'Popup Offset',
 
-	# Geolocation Field
+	# Geolocation field
 	'maps.field.geolocation.name'						=> 'Location',
 	'maps.field.geolocation.lat'						=> 'Latitude (Lat)',
 	'maps.field.geolocation.lng'						=> 'Longitude (Lng)',

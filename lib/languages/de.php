@@ -1,7 +1,7 @@
 <?php
 
 return [
-	# Map Block
+	# Map block
 	'maps.blocks.maps.name'    							=> 'Karte',
 	'maps.blocks.maps.style.name' 						=> 'Design',
 	'maps.blocks.maps.center.name'    					=> 'Mittelpunkt',
@@ -10,13 +10,13 @@ return [
 	'map.blocks.marker.name'							=> 'Pin',
 	'map.blocks.marker.location.name'					=> 'Ort suchen',
 	'map.blocks.marker.marker.name'						=> 'Bild',
-	'map.blocks.marker.marker.size'						=> 'Bildgrösse',
+	'map.blocks.marker.marker.size'						=> 'Bildgröße',
 	'map.blocks.marker.anchor.name'						=> 'Bild-Anker',
 	'maps.blocks.marker.popup.toggle'					=> 'Popup einblenden',
 	'maps.blocks.marker.popup.name'						=> 'Popupfenster-Inhalt',
 	'maps.blocks.marker.popup.offset'					=> 'Popupfenster-Offset',
 
-	# Geolocation Field
+	# Geolocation field
 	'maps.field.geolocation.name'						=> 'Standort',
 	'maps.field.geolocation.lat'						=> 'Breitengrad (Lat)',
 	'maps.field.geolocation.lng'						=> 'Längengrad (Lng)',

@@ -34,9 +34,9 @@ const map = new mapboxgl.Map({
   })
     .setLngLat([<?= str_replace(',', '.', $coordinates->lng()) ?>, <?= str_replace(',', '.', $coordinates->lat()) ?>])
     .addTo(map)
-  <?php if ($marker->haspopup()->isTrue()): ?>
+  <?php if ($marker->hasPopup()->isTrue()): ?>
     .setPopup(new mapboxgl.Popup({
-      offset: <?= $marker->popupoffset() ?>
+      offset: <?= $marker->popupOffset() ?>
     })
     .setHTML('<?= $marker->popup()->kt() ?>'));
   <?php endif ?>

@@ -1,6 +1,6 @@
 <template>
-  <div class="map-wrapper">
-    <div @update="update" :id="mapId" class="map"></div>
+  <div class="embedded-maps">
+    <div :id="mapId" class="embedded-map-item" @update="update"></div>
   </div>
 </template>
 
@@ -14,170 +14,173 @@ export default {
       options: null,
     };
   },
+
   computed: {
     mapId() {
-      return "map-" + this._uid;
-    },
-
-    style() {
-      return this.content.style;
-    },
-
-    zoom() {
-      return this.content.zoom;
-    },
-
-    marker() {
-      return this.content.marker.map((a) => {
-        let imagesize =
-          a.content.image.length > 0
-            ? a.content.image[0].info.split(" × ")
-            : [0, 0];
-
-        return {
-          image: a.content.image.length > 0 ? a.content.image[0].url : false,
-          width: (imagesize[0] / 100) * a.content.size,
-          height: (imagesize[1] / 100) * a.content.size,
-          lat: a.content.coors ? a.content.coors.lat : 0,
-          lng: a.content.coors ? a.content.coors.lng : 51,
-          anchor: a.content.anchor || null,
-          haspopup: a.content.haspopup,
-          popup: a.content.popup || "",
-          popupoffset: a.content.popupoffset || 40,
-        };
-      });
+      return `map-${this._uid}`;
     },
 
     center() {
-      if (this.content.center) {
-        // Set default values for new markers
-        let markerNode =
-          this.field("marker").fieldsets.marker.tabs.content.fields.coors;
-        markerNode.defaultName = this.content.center.name;
-        markerNode.defaultLat = this.content.center.lat;
-        markerNode.defaultLng = this.content.center.lng;
-
-        return [this.content.center.lng, this.content.center.lat];
+      if (!this.content.center) {
+        return [0, 20];
       }
-      return [0, 20];
+
+      const markerNode =
+        this.field("marker").fieldsets.marker.tabs.content.fields.coordinates;
+      const { name, lat, lng } = this.content.center;
+
+      // Set default values for new markers
+      markerNode.defaultName = name;
+      markerNode.defaultLat = lat;
+      markerNode.defaultLng = lng;
+
+      return [lng, lat];
+    },
+
+    marker() {
+      return this.content.marker.map((i) => {
+        const imgSize = i.content.image?.[0]?.info?.split(" × ") ?? [0, 0];
+
+        return {
+          image: i.content.image?.[0]?.url ?? false,
+          width: (imgSize[0] / 100) * i.content.size,
+          height: (imgSize[1] / 100) * i.content.size,
+          lat: i.content.coordinates?.lat ?? 0,
+          lng: i.content.coordinates?.lng ?? 51,
+          anchor: i.content.anchor ?? null,
+          haspopup: i.content.haspopup,
+          popup: i.content.popup ?? "",
+          popupoffset: i.content.popupoffset ?? 40,
+        };
+      });
+    },
+  },
+
+  watch: {
+    "content.style": function (value) {
+      if (this.map) this.map.setStyle(`mapbox://styles/mapbox/${value}`);
+    },
+
+    "content.zoom": function (value) {
+      if (this.map) this.map.setZoom(value);
+    },
+
+    center(value) {
+      if (this.map) this.map.setCenter(value);
+    },
+
+    marker(value) {
+      this.attachedPopup.forEach((marker) => marker.remove());
+      this.attachedPopup = [];
+
+      this.attachedMarker.forEach((marker) => marker.remove());
+      this.attachedMarker = [];
+
+      this.setMarker(value);
     },
   },
 
   created() {
-    // Get MapBox-Library
+    const cdnUrl = "https://api.mapbox.com/mapbox-gl-js/v2.3.1";
+    let s;
 
-    let mapboxStyle = document.createElement("link");
-    mapboxStyle.href =
-      "https://api.mapbox.com/mapbox-gl-js/v2.3.1/mapbox-gl.css";
-    mapboxStyle.rel = "stylesheet";
-    document.head.appendChild(mapboxStyle);
+    // Inject Mapbox library styles
+    const cssLib = "mapbox-gl.css";
+    if (!document.getElementById(cssLib)) {
+      s = document.createElement("link");
+      s.id = cssLib;
+      s.href = `${cdnUrl}/${cssLib}`;
+      s.rel = "stylesheet";
+      document.head.appendChild(s);
+    }
 
-    let mapboxScript = document.createElement("script");
-    mapboxScript.type = "text/javascript";
-
-    mapboxScript.onload = () => {
-      // Get Options and Init
-
-      this.$api.get("map/options").then((res) => {
-        this.options = res;
-        this.initMap();
-      });
-    };
-
-    mapboxScript.src =
-      "https://api.mapbox.com/mapbox-gl-js/v2.3.1/mapbox-gl.js";
-    document.body.appendChild(mapboxScript);
+    // Inject Mapbox library core
+    const jsLib = "mapbox-gl.js";
+    if (!document.getElementById(jsLib)) {
+      s = document.createElement("script");
+      s.id = jsLib;
+      s.addEventListener("load", this.initMap);
+      s.src = `${cdnUrl}/${cssLib}`;
+      document.body.appendChild(s);
+    } else {
+      this.initMap();
+    }
   },
-  watch: {
-    style: {
-      handler(value) {
-        if (this.map) this.map.setStyle("mapbox://styles/mapbox/" + value);
-      },
-    },
-    zoom: {
-      handler(value) {
-        if (this.map) this.map.setZoom(value);
-      },
-    },
-    center: {
-      handler(value) {
-        if (this.map) this.map.setCenter(value);
-      },
-    },
-    marker: {
-      handler(value) {
-        this.attachedPopup.forEach((marker) => marker.remove());
-        this.attachedPopup = [];
 
-        this.attachedMarker.forEach((marker) => marker.remove());
-        this.attachedMarker = [];
-
-        this.setMarker(value);
-      },
-    },
-  },
   methods: {
-    initMap() {
+    async initMap() {
+      const { maps } = await this.$api.get("katapult/options");
+      this.options = maps;
+
+      // eslint-disable-next-line no-undef
       mapboxgl.accessToken = this.options.token;
+      // eslint-disable-next-line no-undef
       this.map = new mapboxgl.Map({
         container: this.mapId,
         center: this.center,
-        style:
-          "mapbox://styles/mapbox/" + (this.style || this.options.defaultStyle),
-        zoom: this.zoom || 1,
+        style: `mapbox://styles/mapbox/${
+          this.content.style ?? this.options.defaultStyle
+        }`,
+        zoom: this.content.zoom ?? 1,
       });
 
       this.map.scrollZoom.disable();
-
       this.setMarker(this.marker);
     },
-    setMarker(markerdata) {
-      if (markerdata)
-        markerdata.forEach((marker) => {
-          if (marker.image) {
-            var markerEl = document.createElement("div");
-            markerEl.className = "marker";
-            markerEl.style.backgroundImage = "url(" + marker.image + ")";
-            markerEl.style.width = marker.width + "px";
-            markerEl.style.height = marker.height + "px";
-            markerEl.style.backgroundSize = "100%";
-          }
 
-          let curMarker = new mapboxgl.Marker({
-            anchor: marker.anchor || null,
-            element: markerEl || null,
-          })
-            .setLngLat([marker.lng, marker.lat])
-            .addTo(this.map);
+    async setMarker(markerData) {
+      if (!markerData) return;
 
-          this.attachedMarker.push(curMarker);
+      for (const marker of markerData) {
+        let markerEl = null;
 
-          if (marker.haspopup) {
-            let curPopup = new mapboxgl.Popup({
-              offset: parseInt(marker.popupoffset),
-              focusAfterOpen: false,
-            }).setLngLat([marker.lng, marker.lat]);
+        if (marker.image) {
+          markerEl = document.createElement("div");
+          markerEl.className = "marker";
+          markerEl.style.backgroundImage = `url(${marker.image})`;
+          markerEl.style.width = `${marker.width}px`;
+          markerEl.style.height = `${marker.height}px`;
+          markerEl.style.backgroundSize = "100%";
+        }
 
-            this.attachedPopup.push(curPopup);
+        // eslint-disable-next-line no-undef
+        const curMarker = new mapboxgl.Marker({
+          anchor: marker.anchor ?? null,
+          element: markerEl,
+        })
+          .setLngLat([marker.lng, marker.lat])
+          .addTo(this.map);
 
-            this.$api
-              .post("map/converter", { markdown: marker.popup })
-              .then((res) => {
-                curPopup.setHTML(res.html).addTo(this.map);
-              });
-          }
-        });
+        this.attachedMarker.push(curMarker);
+
+        if (marker.haspopup) {
+          // eslint-disable-next-line no-undef
+          const curPopup = new mapboxgl.Popup({
+            offset: parseInt(marker.popupoffset),
+            focusAfterOpen: false,
+          });
+
+          curPopup.setLngLat([marker.lng, marker.lat]);
+          this.attachedPopup.push(curPopup);
+
+          const { html } = await this.$api.post("map/converter", {
+            markdown: marker.popup,
+          });
+          curPopup.setHTML(html).addTo(this.map);
+        }
+      }
     },
   },
 };
 </script>
 
-<style lang="scss">
-.map-wrapper {
+<style>
+.embedded-maps {
   position: relative;
-  .map {
-    min-height: 400px;
-    overflow: hidden;
-  }
+}
+
+.embedded-map-item {
+  min-height: 400px;
+  overflow: hidden;
 }
 </style>

@@ -40,7 +40,7 @@ return [
 
 ## Geolocation field
 
-![Geolocation-Field](./.github/screenshot-geolocation.png)
+![Geolocation field](./.github/screenshot-geolocation.png)
 
 Here's an example how to use the geolocationg field in your blueprint:
 
@@ -66,7 +66,7 @@ Longitude: <?= $mylocation->lng() ?>
 
 ## Map block
 
-![Map-Block](./.github/screenshot-maps.png)
+![Map block](./.github/screenshot-maps.png)
 
 With the Map block, you can set up your map with a live preview. To add this block to your blueprint, simply add a `blocks` field:
 
@@ -83,7 +83,7 @@ To customize the default block blueprints, copy the two files located in `/site/
 
 You can add as many markers as you want right from within your map block. Try to place your marker in the visible preview.
 
-![Map-Block-Marker](./.github/screenshot-marker.png)
+![Map block marker](./.github/screenshot-marker.png)
 
 ### How to use the map block in your template
 

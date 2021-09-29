@@ -34,7 +34,7 @@ To use Open-Map on your Website get your [Access-Token](https://docs.mapbox.com/
 
 ## Geolocation-Field
 
-![Geolocation-Field](https://github.com/youngcut/kirby-map/raw/6c95c30865bfde58e2fcb9c9b22c556b6047e90c/lib/img/geolocation_screenshot.png)
+![Geolocation-Field](./.github/screenshot-geolocation.png)
 
 Here's a example how to use the Geolocation-Field on your blueprint:
 
@@ -54,16 +54,16 @@ mygeolocation:
 ```php
 
     <?php $mylocation = $page->mygeolocation()->toLocation() ?>
-    
+
     Name: <?= $mylocation->name() ?>
     Latitude: <?= $mylocation->lat() ?>
     Longitude: <?= $mylocation->lng() ?>
-   
-```  
+
+```
 
 ## Map-Block
 
-![Map-Block](https://github.com/youngcut/kirby-map/raw/6c95c30865bfde58e2fcb9c9b22c556b6047e90c/lib/img/maps_screenshot.png)
+![Map-Block](./.github/screenshot-maps.png)
 
 With the Map-Block, you can setup your Map with a live preview. Here's how you can add this Block to your Blueprint:
 
@@ -81,7 +81,7 @@ To customize the default block-blueprints, copy the 2 files in `/site/plugins/ki
 
 In your Map-Block, you can add as many markers you want. Try to place your Marker in the visible preview.
 
-![Map-Block-Marker](https://github.com/youngcut/kirby-map/raw/6c95c30865bfde58e2fcb9c9b22c556b6047e90c/lib/img/marker_screenshot.png)
+![Map-Block-Marker](./.github/screenshot-marker.png)
 
 ### How to use it in your Template?
 

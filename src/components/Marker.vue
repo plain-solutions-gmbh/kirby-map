@@ -1,12 +1,12 @@
 <template>
   <div class="marker-item" @click="open">
-    <span class="img-wrapper">
-      <img v-if="img" :src="img" />
-    </span>
+    <div v-if="url" class="marker-item-image">
+      <img :src="url" />
+    </div>
 
-    <div class="desc-wrapper">
-      <p>{{ name || $t("empty") }}</p>
-      <p>{{ coors }}</p>
+    <div class="marker-item-description">
+      <p>{{ description ?? $t("empty") }}</p>
+      <p>{{ coordinates }}</p>
     </div>
   </div>
 </template>
@@ -14,20 +14,18 @@
 <script>
 export default {
   computed: {
-    img() {
-      if (this.content.image.length > 0) return this.content.image[0].icon.url;
-      this.content.anchor = null;
-      return false;
+    url() {
+      return this.content.image?.[0]?.icon?.url;
     },
-    name() {
-      if (this.content.coors) return this.content.coors.name;
 
-      return false;
+    description() {
+      return this.content.coors?.name;
     },
-    coors() {
-      if (this.content.coors)
-        return this.content.coors.lat + "," + this.content.coors.lng;
-      return "";
+
+    coordinates() {
+      return this.content.coors
+        ? `${this.content.coors.lat},${this.content.coors.lng}`
+        : "";
     },
   },
 };
@@ -37,20 +35,24 @@ export default {
 .marker-item {
   display: flex;
   align-items: center;
-  > .img-wrapper {
-    height: 38px;
-    width: 38px;
-    img {
-      height: 100%;
-      width: 100%;
-      object-fit: contain;
-    }
+}
+
+.marker-item-image {
+  width: 2.5rem;
+  height: 2.5rem;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
   }
 }
-.desc-wrapper {
-  padding-left: 15px;
+
+.marker-item-description {
+  padding-left: 1rem;
+
   > p:last-child {
-    color: #ccc;
+    color: var(--color-border);
     font-style: italic;
   }
 }

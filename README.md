@@ -24,11 +24,11 @@
 
 ## Installation
 
-Download and copy this repository to you Plugin-Folder: `/site/plugins/kirby-map`
+Download and copy this repository to you plugin folder: `/site/plugins/kirby-map`
 
 ## Configuration
 
-Kirby Map uses [Mapbox](https://www.mapbox.com/) for Geolocation and map view. For internal purposes, a default token is already set. You probably want to replace that for your specific use-case.
+Kirby Map uses [Mapbox](https://www.mapbox.com/) for geolocation and map view. For internal purposes, a default token is already set. You probably want to replace that for your specific use-case.
 
 To use Mapbox on your website, create your very own [access token](https://docs.mapbox.com/help/getting-started/access-tokens) and set it in your config file: `/site/config/config.php`
 

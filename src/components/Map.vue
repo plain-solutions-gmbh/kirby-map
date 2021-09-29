@@ -100,7 +100,7 @@ export default {
       s = document.createElement("script");
       s.id = jsLib;
       s.addEventListener("load", this.initMap);
-      s.src = `${cdnUrl}/${cssLib}`;
+      s.src = `${cdnUrl}/${jsLib}`;
       document.body.appendChild(s);
     } else {
       this.initMap();

@@ -4,10 +4,10 @@
 
 **2-in-1-Plugin**: All you need to set up a map on your website. This plugin includes two rich feature sets:
 
-- 🔎 **Geolocation-Field:**
+- 🔎 **Geolocation field:**
   - Search for your location and get results (name, lat, long) into fields
 
-- 🗺 **Map-Block:**
+- 🗺 **Map block:**
   - Built-in Mapbox instance
   - Set the following values for…
     - design
@@ -34,7 +34,7 @@ To use Mapbox on your website, create your very own [access token](https://docs.
 
 ```php
 return [
-  'microman.map.token' => '[your-token]'
+  'microman.map.token' => 'YOUR-TOKEN'
 ];
 ```
 
@@ -93,7 +93,7 @@ By default, the Block outputs an open source Mapbox instance.
 
 If you want to use the [Google Maps JavaScript API](https://developers.google.com/maps/documentation/javascript/overview) copy and rename `/site/plugins/kirby-map/lib/examples/google-maps.php` to `site/snippets/blocks/maps.php`
 
-> Don't forget to replace `[`YOUR-API]` with your [Google-API](https://developers.google.com/maps/documentation/javascript/get-api-key) in the last line.
+> Don't forget to replace `[YOUR-API]` with your [Google-API](https://developers.google.com/maps/documentation/javascript/get-api-key) in the last line.
 
 ## Credits
 

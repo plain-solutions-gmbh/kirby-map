@@ -6,7 +6,7 @@
 <?php $center = $block->center()->toLocation(); ?>
 
 <script>
-mapboxgl.accessToken = "<?= option('katapult.shared.maps.token') ?>";
+mapboxgl.accessToken = "<?= option('microman.map.token') ?>";
 const map = new mapboxgl.Map({
   container: "embedded-map-<?= $block->id() ?>",
   style: "mapbox://styles/mapbox/<?= $block->style() ?>",

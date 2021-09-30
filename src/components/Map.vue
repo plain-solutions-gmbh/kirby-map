@@ -109,8 +109,8 @@ export default {
 
   methods: {
     async initMap() {
-      const { maps } = await this.$api.get("katapult/options");
-      this.options = maps;
+      const options = await this.$api.get("map/options");
+      this.options = options;
 
       // eslint-disable-next-line no-undef
       mapboxgl.accessToken = this.options.token;

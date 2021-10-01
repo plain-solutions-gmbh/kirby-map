@@ -102,7 +102,7 @@ export default {
   data() {
     return {
       geoData: [],
-      error: "",
+      error: null,
     };
   },
 
@@ -120,14 +120,12 @@ export default {
     },
 
     dropdownOptions() {
-      return this.geoData.map((el) => {
-        return {
-          name: el.place_name,
-          type: el.place_type[0],
-          lat: el.center[1],
-          lng: el.center[0],
-        };
-      });
+      return this.geoData.map(({ place_name, place_type, center }) => ({
+        name: place_name,
+        type: place_type[0],
+        lat: center[1],
+        lng: center[0],
+      }));
     },
   },
 
@@ -143,7 +141,7 @@ export default {
           `https://api.mapbox.com/geocoding/v5/mapbox.places/${evt}.json?types=address,country,postcode,place,locality&limit=5&access_token=${this.token}`
         );
         const data = await response.json();
-        this.error = "";
+        this.error = null;
 
         if (data.features) {
           const toShow = data.features.slice(0, 6);
@@ -197,7 +195,7 @@ export default {
         return;
       }
 
-      this.error = "";
+      this.error = null;
       this.$emit("input", v);
     },
   },

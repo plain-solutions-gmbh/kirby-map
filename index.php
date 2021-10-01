@@ -1,6 +1,6 @@
 <?php
 
-Kirby::plugin('microman/map', [
+\Kirby\Cms\App::plugin('microman/map', [
     'options' => [
         'token'         => 'pk.eyJ1IjoibWljcm9tYW4iLCJhIjoiY2txOWg0ZDg2MDJqdDJxbW9sMGNhbjFwaCJ9.j7h8Wv0LnS2QqmuL7VR6wQ',
         'defaultStyle'  => 'streets-v11',
@@ -33,15 +33,6 @@ Kirby::plugin('microman/map', [
                 'pattern' => 'map/options',
                 'action' => function () {
                     return option('microman.map');
-                }
-            ],
-            [
-                'pattern' => 'map/converter',
-                'method' => 'POST',
-                'action' => function () {
-                    return [
-                        'html' => kt(get('markdown'))
-                    ];
                 }
             ]
         ]

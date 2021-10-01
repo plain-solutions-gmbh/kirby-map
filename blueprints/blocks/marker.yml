@@ -62,8 +62,7 @@ fields:
 
   popup:
     label: maps.blocks.marker.popup.name
-    type: textarea
-    size: medium
+    type: writer
     when:
       hasPopup: true
 

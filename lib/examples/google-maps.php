@@ -66,12 +66,12 @@ window.kirbyMap.init = function () {
       <?php endif  ?>
     });
 
-    <?php if ($marker->popup()->isNotEmpty()) : ?>
+    <?php if ($marker->hasPopup()->isTrue()) : ?>
       const infoWindow<?= $marker->indexOf() ?> = new google.maps.InfoWindow({
-        content: `<?= $marker->popup()->kt() ?>`,
+        content: `<?= $marker->popup() ?>`,
       });
 
-      marker<?= $marker->indexOf() ?>.addListener("click", () => {
+      marker<?= $marker->indexOf() ?>.addEventListener("click", () => {
         infowindow<?= $marker->indexOf() ?>.open({
           anchor: marker<?= $marker->indexOf() ?>,
           map,

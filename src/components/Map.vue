@@ -26,7 +26,7 @@ export default {
       }
 
       const markerNode =
-        this.field("marker").fieldsets.marker.tabs.content.fields.coordinates;
+        this.field("marker").fieldsets.marker.tabs.content.fields.coors;
       const { name, lat, lng } = this.content.center;
 
       // Set default values for new markers
@@ -42,15 +42,15 @@ export default {
         const imgSize = content.image?.[0]?.info?.split(" × ") ?? [0, 0];
 
         return {
-          image: content.image?.[0]?.url ?? false,
+          image: content.image?.[0]?.url,
           width: (imgSize[0] / 100) * content.size,
           height: (imgSize[1] / 100) * content.size,
-          lat: content.coordinates?.lat ?? 0,
-          lng: content.coordinates?.lng ?? 51,
+          lat: content.coors?.lat ?? 0,
+          lng: content.coors?.lng ?? 51,
           anchor: content.anchor,
           hasPopup: content.haspopup,
           popup: content.popup,
-          popupOffset: content.popupoffset ?? 40,
+          popupOffset: content.popupoffset,
         };
       });
     },

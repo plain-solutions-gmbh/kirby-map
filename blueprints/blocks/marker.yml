@@ -8,6 +8,8 @@ fields:
 
   coors:
     type: geolocation
+    when:
+      - false
 
   image:
     label: map.blocks.marker.marker.name

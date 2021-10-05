@@ -27,8 +27,8 @@ const map = new mapboxgl.Map({
     <?= $markerid ?> = document.createElement('div');
     <?= $markerid ?>.className = 'marker';
     <?= $markerid ?>.style.backgroundImage = "url(<?= $image->url() ?>)";
-    <?= $markerid ?>.style.width = "<?= ($image->width() / 100) * $marker->size()->int() ?>px";
-    <?= $markerid ?>.style.height = "<?= ($image->height() / 100) * $marker->size()->int() ?>px";
+    <?= $markerid ?>.style.width = "<?=  number_format(($image->width() / 100) * $marker->size()->int()) ?>px";
+    <?= $markerid ?>.style.height = "<?=  number_format(($image->height() / 100) * $marker->size()->int()) ?>px";
     <?= $markerid ?>.style.backgroundSize = '100%';
   <?php endif ?>
 

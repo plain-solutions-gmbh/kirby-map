@@ -26,7 +26,7 @@ export default {
       }
 
       const markerNode =
-        this.field("marker").fieldsets.marker.tabs.content.fields.coordinates;
+        this.field("marker").fieldsets.marker.tabs.content.fields.coors;
       const { name, lat, lng } = this.content.center;
 
       // Set default values for new markers
@@ -38,19 +38,19 @@ export default {
     },
 
     marker() {
-      return this.content.marker.map((i) => {
-        const imgSize = i.content.image?.[0]?.info?.split(" × ") ?? [0, 0];
+      return this.content.marker.map(({ content }) => {
+        const imgSize = content.image?.[0]?.info?.split(" × ") ?? [0, 0];
 
         return {
-          image: i.content.image?.[0]?.url ?? false,
-          width: (imgSize[0] / 100) * i.content.size,
-          height: (imgSize[1] / 100) * i.content.size,
-          lat: i.content.coordinates?.lat ?? 0,
-          lng: i.content.coordinates?.lng ?? 51,
-          anchor: i.content.anchor ?? null,
-          haspopup: i.content.haspopup,
-          popup: i.content.popup ?? "",
-          popupoffset: i.content.popupoffset ?? 40,
+          image: content.image?.[0]?.url,
+          width: (imgSize[0] / 100) * content.size,
+          height: (imgSize[1] / 100) * content.size,
+          lat: content.coors?.lat ?? 0,
+          lng: content.coors?.lng ?? 51,
+          anchor: content.anchor,
+          hasPopup: content.haspopup,
+          popup: content.popup,
+          popupOffset: content.popupoffset,
         };
       });
     },
@@ -153,20 +153,16 @@ export default {
 
         this.attachedMarker.push(curMarker);
 
-        if (marker.haspopup) {
+        if (marker.hasPopup) {
           // eslint-disable-next-line no-undef
           const curPopup = new mapboxgl.Popup({
-            offset: parseInt(marker.popupoffset),
+            offset: parseInt(marker.popupOffset),
             focusAfterOpen: false,
           });
 
           curPopup.setLngLat([marker.lng, marker.lat]);
+          curPopup.setHTML(marker.popup).addTo(this.map);
           this.attachedPopup.push(curPopup);
-
-          const { html } = await this.$api.post("map/converter", {
-            markdown: marker.popup,
-          });
-          curPopup.setHTML(html).addTo(this.map);
         }
       }
     },

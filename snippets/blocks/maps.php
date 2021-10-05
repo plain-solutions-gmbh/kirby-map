@@ -38,7 +38,7 @@ const map = new mapboxgl.Map({
     .setPopup(new mapboxgl.Popup({
       offset: <?= $marker->popupOffset() ?>
     })
-    .setHTML('<?= $marker->popup()->kt() ?>'));
+    .setHTML('<?= $marker->popup() ?>'));
   <?php endif ?>
 <?php endforeach ?>
 </script>

@@ -26,6 +26,10 @@
 
 Download and copy this repository to you plugin folder: `/site/plugins/kirby-map`
 
+**Composer**
+
+`composer required microman/kirby-map`
+
 ## Configuration
 
 Kirby Map uses [Mapbox](https://www.mapbox.com/) for geolocation and map view. For internal purposes, a default token is already set. You probably want to replace that for your specific use-case.

@@ -1,5 +1,5 @@
 {
-    "name": "microman/map",
+    "name": "microman/kirby-map",
     "description": "Geolocation field & map block: All you need to set up a map on your website with Kirby CMS",
     "type": "kirby-plugin",
     "license": "MIT",

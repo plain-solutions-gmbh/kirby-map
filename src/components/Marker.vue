@@ -26,7 +26,7 @@ export default {
       return this.content.coordinates
         ? `${this.content.coordinates.lat},${this.content.coordinates.lng}`
         : this.content.coors
-        ? "(This marker was created with an older version. Please set the position from new.)"
+        ? "(This marker was created with an older version. Please set the position from scratch.)"
         : null;
     },
   },

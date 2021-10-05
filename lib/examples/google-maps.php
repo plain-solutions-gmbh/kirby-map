@@ -16,8 +16,8 @@ window.kirbyMap.init = function () {
 
   <?php
   foreach ($block->marker()->toBlocks() as $marker) :
-    // Fix renamed field coors -> coordinates in d77cfe05697c02075cf9f59a999dc2696c2f9cf6
-    $coordinates = ($marker->coordinates()->isEmpty()) ? $marker->coors()->toLocation() : $marker->coordinates()->toLocation();
+    // Fix renamed field `coors` -> `coordinates` in d77cfe05697c02075cf9f59a999dc2696c2f9cf6
+    $coordinates = $marker->coordinates()->or($marker->coors())->toLocation();
   ?>
 
     const marker<?= $marker->indexOf() ?> = new google.maps.Marker({

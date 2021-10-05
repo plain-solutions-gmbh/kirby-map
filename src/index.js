@@ -1,4 +1,4 @@
-import Map from "./components/Map.vue";
+import Maps from "./components/Map.vue";
 import Marker from "./components/Marker.vue";
 import Geolocation from "./components/Geolocation.vue";
 
@@ -9,7 +9,7 @@ window.panel.plugin("microman/map", {
   },
   blocks: {
     marker: Marker,
-    maps: Map,
+    maps: Maps,
   },
   fields: {
     geolocation: Geolocation,

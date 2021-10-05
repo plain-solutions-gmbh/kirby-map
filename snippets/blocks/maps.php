@@ -14,8 +14,12 @@ const map = new mapboxgl.Map({
   zoom: <?= $block->zoom()->or(12) ?>
 });
 
-<?php foreach ($block->marker()->toBlocks() as $marker): ?>
-  <?php $coordinates = $marker->coors()->toLocation() ?>
+<?php foreach ($block->marker()->toBlocks() as $marker):
+
+  // Fix renamed field coors -> coordinates in d77cfe05697c02075cf9f59a999dc2696c2f9cf6
+  $coordinates = ($marker->coordinates()->isEmpty()) ? $marker->coors()->toLocation() : $marker->coordinates()->toLocation();
+
+  ?>
   <?php $markerid = 'elMarker' . substr($marker->id(), 0, 8) ?>
   let <?= $markerid ?> = null;
 

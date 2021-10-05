@@ -2,8 +2,11 @@ name: map.blocks.marker.name
 icon: marker
 
 fields:
-  coors:
+  coordinates:
     label: map.blocks.marker.location.name
+    type: geolocation
+
+  coors:
     type: geolocation
 
   image:

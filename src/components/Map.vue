@@ -26,7 +26,7 @@ export default {
       }
 
       const markerNode =
-        this.field("marker").fieldsets.marker.tabs.content.fields.coors;
+        this.field("marker").fieldsets.marker.tabs.content.fields.coordinates;
       const { name, lat, lng } = this.content.center;
 
       // Set default values for new markers
@@ -45,8 +45,8 @@ export default {
           image: content.image?.[0]?.url,
           width: (imgSize[0] / 100) * content.size,
           height: (imgSize[1] / 100) * content.size,
-          lat: content.coors?.lat ?? 0,
-          lng: content.coors?.lng ?? 51,
+          lat: content.coordinates?.lat ?? content.coors?.lat ?? 0,
+          lng: content.coordinates?.lng ?? content.coors?.lng ?? 51,
           anchor: content.anchor,
           hasPopup: content.haspopup,
           popup: content.popup,

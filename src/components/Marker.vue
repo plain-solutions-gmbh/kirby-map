@@ -19,13 +19,13 @@ export default {
     },
 
     description() {
-      return this.content.coors?.name;
+      return this.content.coordinates?.name ?? this.content.coors?.name;
     },
 
     coordinates() {
-      return this.content.coors
-        ? `${this.content.coors.lat},${this.content.coors.lng}`
-        : null;
+      return this.content.coordinates
+        ? `${this.content.coordinates.lat},${this.content.coordinates.lng}`
+        : (this.content.coors) ? "(This marker was created with an older version. Please set the position from new.)" : null;
     },
   },
 };

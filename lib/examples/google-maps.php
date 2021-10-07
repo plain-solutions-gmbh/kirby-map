@@ -28,8 +28,8 @@ window.kirbyMap.init = function () {
       map,
       title: "<?= $coordinates->name() ?>",
       <?php if ($image = $marker->image()->toFile()):
-        $width =  number_format($image->width() / 100 * $marker->size()->int());
-        $height =  number_format($image->height() / 100 * $marker->size()->int());
+        $width = number_format($image->width() / 100 * $marker->size()->int());
+        $height = number_format($image->height() / 100 * $marker->size()->int());
         switch ($marker->anchor()) {
           case "center":
             $anchor = [$width /  2, $height /  2];

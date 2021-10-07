@@ -31,28 +31,28 @@ window.kirbyMap.init = function () {
         $width = number_format($image->width() / 100 * $marker->size()->int());
         $height = number_format($image->height() / 100 * $marker->size()->int());
         switch ($marker->anchor()) {
-          case "center":
+          case 'center':
             $anchor = [$width /  2, $height /  2];
             break;
-          case "top":
+          case 'top':
             $anchor = [$width /  2, 0];
             break;
-          case "left":
+          case 'left':
             $anchor = [0, $height /  2];
             break;
-          case "right":
+          case 'right':
             $anchor = [$width, $height /  2];
             break;
-          case  "top-left":
+          case 'top-left':
             $anchor = [0, 0];
             break;
-          case  "top-right":
+          case 'top-right':
             $anchor = [$width, 0];
             break;
-          case  "bottom-left":
+          case 'bottom-left':
             $anchor = [0, $height];
             break;
-          case  "bottom-right":
+          case 'bottom-right':
             $anchor = [$width, $height];
             break;
           default:

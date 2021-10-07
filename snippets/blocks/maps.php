@@ -23,12 +23,12 @@ const map = new mapboxgl.Map({
   let <?= $markerid ?> = null;
 
   <?php if ($image = $marker->image()->toFile()): ?>
-    <?= $markerid ?> = document.createElement('div');
-    <?= $markerid ?>.className = 'marker';
+    <?= $markerid ?> = document.createElement("div");
+    <?= $markerid ?>.className = "marker";
     <?= $markerid ?>.style.backgroundImage = "url(<?= $image->url() ?>)";
     <?= $markerid ?>.style.width = "<?= number_format(($image->width() / 100) * $marker->size()->int()) ?>px";
     <?= $markerid ?>.style.height = "<?= number_format(($image->height() / 100) * $marker->size()->int()) ?>px";
-    <?= $markerid ?>.style.backgroundSize = '100%';
+    <?= $markerid ?>.style.backgroundSize = "100%";
   <?php endif ?>
 
   new mapboxgl.Marker({

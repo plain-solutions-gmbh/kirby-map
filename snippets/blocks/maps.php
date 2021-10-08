@@ -15,21 +15,20 @@ const map = new mapboxgl.Map({
 });
 
 <?php foreach ($block->marker()->toBlocks() as $marker):
-
-  // Fix renamed field coors -> coordinates in d77cfe05697c02075cf9f59a999dc2696c2f9cf6
-  $coordinates = ($marker->coordinates()->isEmpty()) ? $marker->coors()->toLocation() : $marker->coordinates()->toLocation();
+  // Fix renamed field `coors` -> `coordinates` in d77cfe05697c02075cf9f59a999dc2696c2f9cf6
+  $coordinates = $marker->coordinates()->or($marker->coors())->toLocation();
 
   ?>
   <?php $markerid = 'elMarker' . substr($marker->id(), 0, 8) ?>
   let <?= $markerid ?> = null;
 
   <?php if ($image = $marker->image()->toFile()): ?>
-    <?= $markerid ?> = document.createElement('div');
-    <?= $markerid ?>.className = 'marker';
+    <?= $markerid ?> = document.createElement("div");
+    <?= $markerid ?>.className = "marker";
     <?= $markerid ?>.style.backgroundImage = "url(<?= $image->url() ?>)";
-    <?= $markerid ?>.style.width = "<?=  number_format(($image->width() / 100) * $marker->size()->int()) ?>px";
-    <?= $markerid ?>.style.height = "<?=  number_format(($image->height() / 100) * $marker->size()->int()) ?>px";
-    <?= $markerid ?>.style.backgroundSize = '100%';
+    <?= $markerid ?>.style.width = "<?= number_format(($image->width() / 100) * $marker->size()->int()) ?>px";
+    <?= $markerid ?>.style.height = "<?= number_format(($image->height() / 100) * $marker->size()->int()) ?>px";
+    <?= $markerid ?>.style.backgroundSize = "100%";
   <?php endif ?>
 
   new mapboxgl.Marker({

@@ -24,11 +24,21 @@
 
 ## Installation
 
-Download and copy this repository to you plugin folder: `/site/plugins/kirby-map`
+### Download
 
-**Composer**
+Download and copy this repository to `/site/plugins/kirby-map`.
 
-`composer required microman/kirby-map`
+### Git Submodule
+
+```
+git submodule add https://github.com/youngcut/kirby-map.git site/plugins/kirby-map
+```
+
+### Composer
+
+```
+composer require microman/kirby-map
+```
 
 ## Configuration
 

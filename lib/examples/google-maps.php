@@ -16,8 +16,8 @@ window.kirbyMap.init = function () {
 
   <?php
   foreach ($block->marker()->toBlocks() as $marker) :
-    // Fix renamed field coors -> coordinates in d77cfe05697c02075cf9f59a999dc2696c2f9cf6
-    $coordinates = ($marker->coordinates()->isEmpty()) ? $marker->coors()->toLocation() : $marker->coordinates()->toLocation();
+    // Fix renamed field `coors` -> `coordinates` in d77cfe05697c02075cf9f59a999dc2696c2f9cf6
+    $coordinates = $marker->coordinates()->or($marker->coors())->toLocation();
   ?>
 
     const marker<?= $marker->indexOf() ?> = new google.maps.Marker({
@@ -28,31 +28,31 @@ window.kirbyMap.init = function () {
       map,
       title: "<?= $coordinates->name() ?>",
       <?php if ($image = $marker->image()->toFile()):
-        $width =  number_format($image->width() / 100 * $marker->size()->int());
-        $height =  number_format($image->height() / 100 * $marker->size()->int());
-        switch ($marker->anchor()) {
-          case "center":
+        $width = number_format($image->width() / 100 * $marker->size()->int());
+        $height = number_format($image->height() / 100 * $marker->size()->int());
+        switch ($marker->anchor()->value()) {
+          case 'center':
             $anchor = [$width /  2, $height /  2];
             break;
-          case "top":
+          case 'top':
             $anchor = [$width /  2, 0];
             break;
-          case "left":
+          case 'left':
             $anchor = [0, $height /  2];
             break;
-          case "right":
+          case 'right':
             $anchor = [$width, $height /  2];
             break;
-          case  "top-left":
+          case 'top-left':
             $anchor = [0, 0];
             break;
-          case  "top-right":
+          case 'top-right':
             $anchor = [$width, 0];
             break;
-          case  "bottom-left":
+          case 'bottom-left':
             $anchor = [0, $height];
             break;
-          case  "bottom-right":
+          case 'bottom-right':
             $anchor = [$width, $height];
             break;
           default:

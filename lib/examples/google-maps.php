@@ -30,7 +30,7 @@ window.kirbyMap.init = function () {
       <?php if ($image = $marker->image()->toFile()):
         $width = number_format($image->width() / 100 * $marker->size()->int());
         $height = number_format($image->height() / 100 * $marker->size()->int());
-        switch ($marker->anchor()) {
+        switch ($marker->anchor()->value()) {
           case 'center':
             $anchor = [$width /  2, $height /  2];
             break;

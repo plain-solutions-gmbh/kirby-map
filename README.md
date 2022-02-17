@@ -64,8 +64,8 @@ myGeoLocation:
   type: geolocation
   default:
     name: "Berlin"
-    Lat: 13.38333
-    Lng: 52.51667
+    lat: 13.38333
+    lng: 52.51667
 ```
 
 ### How to use the geolocation field in your template

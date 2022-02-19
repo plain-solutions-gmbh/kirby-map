@@ -12,18 +12,8 @@
     'fields' => [
         'geolocation' => [
             'props' => [
-                'value' => function ($val) {
-                    if (is_object($val))
-                        return $val;
-                        
-                    $out = [];
-                    foreach (preg_split("/\r\n|\n|\r/", $val) as $item) {
-                        $i = explode(': ', $item);
-                        if (count($i) > 0)
-                            $out[$i[0]] = $i[1];
-                    }
-                    return $out;
-
+                'value' => function ($value = null) {
+                    return Yaml::decode($value);
                 },
                 'token' => function () {
                     return option('microman.map.token');

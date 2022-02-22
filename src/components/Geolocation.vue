@@ -24,11 +24,13 @@
           @keydown.native.enter.prevent="selectDropdown(option)"
           @keydown.native.space.prevent="selectDropdown(option)"
         >
+          <!-- eslint-disable vue/no-v-html -->
           <span
             v-html="
               $t(`maps.field.geolocation.${option.type}`) + ': ' + option.name
             "
           />
+          <!-- eslint-enable vue/no-v-html -->
         </k-dropdown-item>
       </k-dropdown-content>
     </k-dropdown>

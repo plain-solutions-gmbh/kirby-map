@@ -15,6 +15,14 @@ fields:
       - satellite-streets-v11
       - navigation-day-v1
       - navigation-night-v1
+    width: 1/2
+  enable_zoom:
+    label:
+      de: Zoom aktivieren
+      en: Enable Zoom
+    width: 1/2
+    type: toggle
+    default: true 
 
   center:
     label: maps.blocks.maps.center.name

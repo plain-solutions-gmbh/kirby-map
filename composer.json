@@ -2,14 +2,12 @@
     "name": "microman/kirby-map",
     "description": "Geolocation field & map block: All you need for a map on your website",
     "type": "kirby-plugin",
-    "version": "1.0.5",
+    "version": "1.0.6",
     "license": "MIT",
-    "authors": [
-        {
-            "name": "Roman Gsponer",
-            "email": "rg@microman.ch"
-        }
-    ],
+    "authors": [{
+        "name": "Roman Gsponer",
+        "email": "rg@microman.ch"
+    }],
     "require": {
         "getkirby/composer-installer": "^1.2"
     },

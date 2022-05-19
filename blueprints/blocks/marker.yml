@@ -17,7 +17,7 @@ fields:
     uploads: image
     multiple: false
     info: "{{ file.dimensions }}"
-    width: 1/2
+    width: 1/3
 
   anchor:
     label: map.blocks.marker.anchor.name
@@ -51,7 +51,14 @@ fields:
       bottom-right:
         de: Unten recht
         en: bottom right
-    width: 1/2
+    width: 1/3
+
+  uid:
+    type: slug
+    label:
+      de: Eindeutiger Bezeichner
+      en: Unique identifier
+    width: 1/3
 
   size:
     label: map.blocks.marker.marker.size

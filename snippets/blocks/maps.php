@@ -14,6 +14,10 @@ const map = new mapboxgl.Map({
   zoom: <?= $block->zoom()->or(12) ?>
 });
 
+<?php if (!$block->enable_zoom()->isTrue()) : ?>
+  map.scrollZoom.disable()
+<?php endif ?>
+
 <?php foreach ($block->marker()->toBlocks() as $marker):
   // Fix renamed field `coors` -> `coordinates` in d77cfe05697c02075cf9f59a999dc2696c2f9cf6
   $coordinates = $marker->coordinates()->or($marker->coors())->toLocation();
@@ -25,6 +29,9 @@ const map = new mapboxgl.Map({
   <?php if ($image = $marker->image()->toFile()): ?>
     <?= $markerid ?> = document.createElement("div");
     <?= $markerid ?>.className = "marker";
+    <?php if($marker->uid()->isNotEmpty()): ?>
+      <?= $markerid ?>.id = "<?= $marker->uid()->value(); ?>" 
+    <?php endif ?>
     <?= $markerid ?>.style.backgroundImage = "url(<?= $image->url() ?>)";
     <?= $markerid ?>.style.width = "<?= number_format(($image->width() / 100) * $marker->size()->int()) ?>px";
     <?= $markerid ?>.style.height = "<?= number_format(($image->height() / 100) * $marker->size()->int()) ?>px";

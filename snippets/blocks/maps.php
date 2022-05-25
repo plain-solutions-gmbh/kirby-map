@@ -23,29 +23,32 @@ const map = new mapboxgl.Map({
   $coordinates = $marker->coordinates()->or($marker->coors())->toLocation();
 
   ?>
-  <?php $markerid = 'elMarker' . substr($marker->id(), 0, 8) ?>
-  let <?= $markerid ?> = null;
+  <?php $markerElement = 'elMarker' . substr($marker->id(), 0, 8) ?>
+  let <?= $markerElement ?> = null;
 
   <?php if ($image = $marker->image()->toFile()): ?>
-    <?= $markerid ?> = document.createElement("div");
-    <?= $markerid ?>.className = "marker";
-    <?php if($marker->uid()->isNotEmpty()): ?>
-      <?= $markerid ?>.id = "<?= $marker->uid()->value(); ?>" 
-    <?php endif ?>
-    <?= $markerid ?>.style.backgroundImage = "url(<?= $image->url() ?>)";
-    <?= $markerid ?>.style.width = "<?= number_format(($image->width() / 100) * $marker->size()->int()) ?>px";
-    <?= $markerid ?>.style.height = "<?= number_format(($image->height() / 100) * $marker->size()->int()) ?>px";
-    <?= $markerid ?>.style.backgroundSize = "100%";
+    <?= $markerElement ?> = document.createElement("div");
+    <?= $markerElement ?>.className = "marker";
+    <?= $markerElement ?>.style.backgroundImage = "url(<?= $image->url() ?>)";
+    <?= $markerElement ?>.style.width = "<?= number_format(($image->width() / 100) * $marker->size()->int()) ?>px";
+    <?= $markerElement ?>.style.height = "<?= number_format(($image->height() / 100) * $marker->size()->int()) ?>px";
+    <?= $markerElement ?>.style.backgroundSize = "100%";
   <?php endif ?>
 
-  new mapboxgl.Marker({
+
+  <?php $markerObj = 'objMarker' . substr($marker->id(), 0, 8) ?>
+
+  let <?= $markerObj ?> = new mapboxgl.Marker({
     anchor: "<?= $marker->anchor() ?>",
-    element: <?= $markerid ?>
+    element: <?= $markerElement ?>
   })
-    .setLngLat([<?= str_replace(',', '.', $coordinates->lng()) ?>, <?= str_replace(',', '.', $coordinates->lat()) ?>])
-    .addTo(map)
+  <?php if($marker->uid()->isNotEmpty()): ?>
+    <?= $markerObj ?>.getElement().id = "<?= $marker->uid()->value(); ?>" 
+  <?php endif ?>
+    <?= $markerObj ?>.setLngLat([<?= str_replace(',', '.', $coordinates->lng()) ?>, <?= str_replace(',', '.', $coordinates->lat()) ?>])
+    <?= $markerObj ?>.addTo(map)
   <?php if ($marker->hasPopup()->isTrue()): ?>
-    .setPopup(new mapboxgl.Popup({
+    <?= $markerObj ?>.setPopup(new mapboxgl.Popup({
       offset: <?= $marker->popupOffset() ?>
     })
     .setHTML('<?= $marker->popup() ?>'));

@@ -62,7 +62,7 @@
       @input="setValue($event, 'lng')"
     />
 
-    <k-box v-if="error" :text="$t(error)" theme="negative" />
+    <k-box v-if="error" :text="error" theme="negative" />
   </k-field>
 </template>
 
@@ -171,11 +171,14 @@ export default {
     },
 
     setValue(value, key) {
+
       let v = {
         name: key === "name" ? value : this.location.name,
         lat: key === "lat" ? value : this.location.lat,
         lng: key === "lng" ? value : this.location.lng,
       };
+
+      this.$emit("input", v);
 
       if (this.required && (!v.name || !v.lat || !v.lng)) {
         this.error = this.$t("maps.field.geolocation.error");
@@ -183,7 +186,7 @@ export default {
       }
 
       if (!v.name) {
-        this.error = this.$t("maps.field.geolocation.lat.error");
+        this.error = this.$t("maps.field.geolocation.name.error");
         return;
       }
 
@@ -198,7 +201,6 @@ export default {
       }
 
       this.error = null;
-      this.$emit("input", v);
     },
   },
 };

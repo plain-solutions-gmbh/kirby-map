@@ -15,5 +15,9 @@
         "allow-plugins": {
             "getkirby/composer-installer": true
         }
-    }
+    },
+    "funding": [{
+        "type": "other",
+        "url": "https://www.paypal.com/donate/?hosted_button_id=LBCLZVHS4K2R6"
+    }]
 }

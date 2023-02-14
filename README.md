@@ -20,25 +20,18 @@
     - size of the Icon (100% = original size)
     - popup: text and horizontal offset to the location
 
-> This plugin is free to use and published under the MIT license. If you use this plugin for commercial purposes or you want to show your appreciation, don't hesitate to [support me with a donation](https://www.paypal.com/donate?hosted_button_id=LBCLZVHS4K2R6) or purchasing your license(s) through [my affiliate link](https://a.paddle.com/v2/click/1129/136529?link=1170).
+
+> This plugin is free to use and published under the MIT license. If you use this plugin for commercial purposes, or you want to show your appreciation. [support me with a donation](https://www.paypal.com/donate/?hosted_button_id=LBCLZVHS4K2R6).
 
 ## Installation
 
-### Download
+**Manually**
 
-Download and copy this repository to `/site/plugins/kirby-map`.
+[Download](https://github.com/youngcut/kirby-map) and copy the plugin into your plugin folder: `/site/plugins/`
 
-### Git Submodule
+**With Composer**
 
-```
-git submodule add https://github.com/youngcut/kirby-map.git site/plugins/kirby-map
-```
-
-### Composer
-
-```
-composer require microman/kirby-map
-```
+`composer require microman/kirby-map`
 
 ## Configuration
 
@@ -113,10 +106,8 @@ If you want to use the [Google Maps JavaScript API](https://developers.google.co
 
 Powered by [Mapbox](https://www.mapbox.com/). Inspired by [Sylvain's Kirby-Locator](https://github.com/sylvainjule/kirby-locator)
 
-## Licence
+## License
 
 MIT
 
-> [Buy me a ☕️](https://www.paypal.com/donate?hosted_button_id=LBCLZVHS4K2R6) 
-
-> [Get Kirby-license(s) 💳](https://a.paddle.com/v2/click/1129/136529?link=1170) 
+> Do you like this Plugin? [Buy me a ☕️](https://www.paypal.com/donate/?hosted_button_id=LBCLZVHS4K2R6)

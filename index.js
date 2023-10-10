@@ -1,1 +1,413 @@
-(function(){"use strict";var y=function(){var e=this,n=e.$createElement,t=e._self._c||n;return t("div",{staticClass:"embedded-maps"},[t("div",{staticClass:"embedded-map-item",attrs:{id:e.mapId},on:{update:e.update}})])},$=[],R="";function f(e,n,t,r,s,a,c,d){var o=typeof e=="function"?e.options:e;n&&(o.render=n,o.staticRenderFns=t,o._compiled=!0),r&&(o.functional=!0),a&&(o._scopeId="data-v-"+a);var i;if(c?(i=function(l){l=l||this.$vnode&&this.$vnode.ssrContext||this.parent&&this.parent.$vnode&&this.parent.$vnode.ssrContext,!l&&typeof __VUE_SSR_CONTEXT__!="undefined"&&(l=__VUE_SSR_CONTEXT__),s&&s.call(this,l),l&&l._registeredComponents&&l._registeredComponents.add(c)},o._ssrRegister=i):s&&(i=d?function(){s.call(this,(o.functional?this.parent:this).$root.$options.shadowRoot)}:s),i)if(o.functional){o._injectStyles=i;var u=o.render;o.render=function(h,m){return i.call(m),u(h,m)}}else{var p=o.beforeCreate;o.beforeCreate=p?[].concat(p,i):[i]}return{exports:e,options:o}}const b={data(){return{map:null,attachedMarker:[],attachedPopup:[],options:null}},computed:{mapId(){return`map-${this._uid}`},center(){if(!this.content.center)return[0,20];const e=this.field("marker").fieldsets.marker.tabs.content.fields.coordinates,{name:n,lat:t,lng:r}=this.content.center;return e.defaultName=n,e.defaultLat=t,e.defaultLng=r,[r,t]},marker(){return this.content.marker.map(({content:e})=>{var t,r,s,a,c,d,o,i,u,p,l,h,m,k;const n=(a=(s=(r=(t=e.image)==null?void 0:t[0])==null?void 0:r.info)==null?void 0:s.split(" \xD7 "))!=null?a:[0,0];return{image:(d=(c=e.image)==null?void 0:c[0])==null?void 0:d.url,width:n[0]/100*e.size,height:n[1]/100*e.size,lat:(p=(u=(o=e.coordinates)==null?void 0:o.lat)!=null?u:(i=e.coors)==null?void 0:i.lat)!=null?p:0,lng:(k=(m=(l=e.coordinates)==null?void 0:l.lng)!=null?m:(h=e.coors)==null?void 0:h.lng)!=null?k:51,anchor:e.anchor,hasPopup:e.haspopup,popup:e.popup,popupOffset:e.popupoffset}})}},watch:{"content.style":function(e){this.map&&this.map.setStyle(`mapbox://styles/mapbox/${e}`)},"content.zoom":function(e){this.map&&this.map.setZoom(e)},center(e){this.map&&this.map.setCenter(e)},marker(e){this.attachedPopup.forEach(n=>n.remove()),this.attachedPopup=[],this.attachedMarker.forEach(n=>n.remove()),this.attachedMarker=[],this.setMarker(e)}},created(){const e="https://api.mapbox.com/mapbox-gl-js/v2.3.1";let n;const t="mapbox-gl.css";document.getElementById(t)||(n=document.createElement("link"),n.id=t,n.href=`${e}/${t}`,n.rel="stylesheet",document.head.appendChild(n));const r="mapbox-gl.js";document.getElementById(r)?this.initMap():(n=document.createElement("script"),n.id=r,n.addEventListener("load",this.initMap),n.src=`${e}/${r}`,document.body.appendChild(n))},methods:{async initMap(){var n,t;const e=await this.$api.get("map/options");this.options=e,mapboxgl.accessToken=this.options.token,this.map=new mapboxgl.Map({container:this.mapId,center:this.center,style:`mapbox://styles/mapbox/${(n=this.content.style)!=null?n:this.options.defaultStyle}`,zoom:(t=this.content.zoom)!=null?t:1}),this.map.scrollZoom.disable(),this.setMarker(this.marker)},async setMarker(e){var n;if(!!e)for(const t of e){let r=null;t.image&&(r=document.createElement("div"),r.className="marker",r.style.backgroundImage=`url(${t.image})`,r.style.width=`${t.width}px`,r.style.height=`${t.height}px`,r.style.backgroundSize="100%");const s=new mapboxgl.Marker({anchor:(n=t.anchor)!=null?n:null,element:r}).setLngLat([t.lng,t.lat]).addTo(this.map);if(this.attachedMarker.push(s),t.hasPopup){const a=new mapboxgl.Popup({offset:parseInt(t.popupOffset),focusAfterOpen:!1});a.setLngLat([t.lng,t.lat]),a.setHTML(t.popup).addTo(this.map),this.attachedPopup.push(a)}}}}},_={};var w=f(b,y,$,!1,M,null,null,null);function M(e){for(let n in _)this[n]=_[n]}var x=function(){return w.exports}(),C=function(){var e=this,n=e.$createElement,t=e._self._c||n;return t("div",{staticClass:"marker-item",on:{click:e.open}},[e.url?t("div",{staticClass:"marker-item-image"},[t("img",{attrs:{src:e.url}})]):e._e(),t("div",{staticClass:"marker-item-description"},[t("p",[e._v(e._s(e.description||e.$t("empty")))]),t("p",[e._v(e._s(e.coordinates))])])])},S=[],q="";const L={computed:{url(){var e,n,t;return(t=(n=(e=this.content.image)==null?void 0:e[0])==null?void 0:n.icon)==null?void 0:t.url},description(){var e,n,t;return(t=(e=this.content.coordinates)==null?void 0:e.name)!=null?t:(n=this.content.coors)==null?void 0:n.name},coordinates(){return this.content.coordinates?`${this.content.coordinates.lat},${this.content.coordinates.lng}`:this.content.coors?"(This marker was created with an older version. Please set the position from scratch.)":null}}},g={};var E=f(L,C,S,!1,O,null,null,null);function O(e){for(let n in g)this[n]=g[n]}var z=function(){return E.exports}(),P=function(){var e=this,n=e.$createElement,t=e._self._c||n;return t("k-field",{staticClass:"k-geolocation-field",attrs:{label:e.label,required:e.required,disabled:e.disabled}},[t("k-text-field",{ref:"name",staticClass:"k-geolocation-search",attrs:{type:"text",theme:"field",value:e.search,icon:"search"},on:{input:e.searchLocation}}),t("k-dropdown",[t("k-dropdown-content",{ref:"dropdown"},e._l(e.dropdownOptions,function(r,s){return t("k-dropdown-item",{key:s,on:{click:function(a){return e.selectDropdown(r)}},nativeOn:{keydown:[function(a){return!a.type.indexOf("key")&&e._k(a.keyCode,"enter",13,a.key,"Enter")?null:(a.preventDefault(),e.selectDropdown(r))},function(a){return!a.type.indexOf("key")&&e._k(a.keyCode,"space",32,a.key,[" ","Spacebar"])?null:(a.preventDefault(),e.selectDropdown(r))}]}},[t("span",{domProps:{innerHTML:e._s(e.$t("maps.field.geolocation."+r.type)+": "+r.name)}})])}),1)],1),t("k-input",{ref:"name",attrs:{type:"text",theme:"field",value:e.location.name,before:e.$t("maps.field.geolocation.name")},on:{input:function(r){return e.setValue(r,"name")}}}),t("k-input",{ref:"lat",attrs:{type:"text",theme:"field",value:e.location.lat,before:e.$t("maps.field.geolocation.lat")},on:{input:function(r){return e.setValue(r,"lat")}}}),t("k-input",{ref:"lng",attrs:{type:"text",theme:"field",value:e.location.lng,before:e.$t("maps.field.geolocation.lng")},on:{input:function(r){return e.setValue(r,"lng")}}}),e.error?t("k-box",{attrs:{text:e.error,theme:"negative"}}):e._e()],1)},T=[],V="";const N={props:{token:{type:String,required:!0},label:{type:String,required:!0},value:{type:Object,default(){return{name:void 0,lat:void 0,lng:void 0}}},required:Boolean,disabled:Boolean,default:{type:Object,default(){return{name:"",lat:0,lng:0}}}},data(){return{geoData:[],error:null}},computed:{mapId(){return`map-${this._uid}`},location(){var e,n,t,r,s,a,c,d,o,i,u,p;return{name:(r=(t=(e=this.value)==null?void 0:e.name)!=null?t:(n=this.default)==null?void 0:n.name)!=null?r:"",lat:(d=(c=(s=this.value)==null?void 0:s.lat)!=null?c:(a=this.default)==null?void 0:a.lat)!=null?d:0,lng:(p=(u=(o=this.value)==null?void 0:o.lng)!=null?u:(i=this.default)==null?void 0:i.lng)!=null?p:0}},dropdownOptions(){return this.geoData.map(({place_name:e,place_type:n,center:t})=>({name:e,type:n[0],lat:t[1],lng:t[0]}))}},methods:{async searchLocation(e){if(!e){this.$refs.dropdown.close();return}try{const t=await(await fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${e}.json?types=address,country,postcode,place,locality&limit=5&access_token=${this.token}`)).json();if(this.error=null,t.features){const r=t.features.slice(0,6);r?(this.geoData=r,this.$refs.dropdown.open()):(this.error=this.$t("maps.field.L.error.empty"),this.$refs.dropdown.close())}else this.error=t.message,this.$refs.dropdown.close()}catch{this.$refs.dropdown.close()}},selectDropdown(e){delete e.type,this.$refs.dropdown.close(),this.$emit("input",e)},setValue(e,n){let t={name:n==="name"?e:this.location.name,lat:n==="lat"?e:this.location.lat,lng:n==="lng"?e:this.location.lng};if(this.$emit("input",t),this.required&&(!t.name||!t.lat||!t.lng)){this.error=this.$t("maps.field.geolocation.error");return}if(!t.name){this.error=this.$t("maps.field.geolocation.name.error");return}if(!t.lat||isNaN(t.lat)||Math.abs(t.lat)>90){this.error=this.$t("maps.field.geolocation.lat.error");return}if(!t.lng||isNaN(t.lng)||Math.abs(t.lng)>180){this.error=this.$t("maps.field.geolocation.lng.error");return}this.error=null}}},v={};var j=f(N,P,T,!1,D,null,null,null);function D(e){for(let n in v)this[n]=v[n]}var I=function(){return j.exports}();window.panel.plugin("microman/map",{icons:{marker:'<path d="M7.3,15.6C2.8,9.1,2,8.4,2,6.1c0-3.3,2.7-5.9,5.9-5.9s5.9,2.7,5.9,5.9c0,2.4-0.8,3.1-5.3,9.6C8.3,16.1,7.6,16.1,7.3,15.6L7.3,15.6z M7.9,8.5c1.4,0,2.5-1.1,2.5-2.5S9.3,3.6,7.9,3.6S5.5,4.7,5.5,6.1S6.6,8.5,7.9,8.5z"/>'},blocks:{marker:z,maps:x},fields:{geolocation:I}})})();
+(function() {
+  "use strict";
+  const Map_vue_vue_type_style_index_0_lang = "";
+  function normalizeComponent(scriptExports, render, staticRenderFns, functionalTemplate, injectStyles, scopeId, moduleIdentifier, shadowMode) {
+    var options = typeof scriptExports === "function" ? scriptExports.options : scriptExports;
+    if (render) {
+      options.render = render;
+      options.staticRenderFns = staticRenderFns;
+      options._compiled = true;
+    }
+    if (functionalTemplate) {
+      options.functional = true;
+    }
+    if (scopeId) {
+      options._scopeId = "data-v-" + scopeId;
+    }
+    var hook;
+    if (moduleIdentifier) {
+      hook = function(context) {
+        context = context || this.$vnode && this.$vnode.ssrContext || this.parent && this.parent.$vnode && this.parent.$vnode.ssrContext;
+        if (!context && typeof __VUE_SSR_CONTEXT__ !== "undefined") {
+          context = __VUE_SSR_CONTEXT__;
+        }
+        if (injectStyles) {
+          injectStyles.call(this, context);
+        }
+        if (context && context._registeredComponents) {
+          context._registeredComponents.add(moduleIdentifier);
+        }
+      };
+      options._ssrRegister = hook;
+    } else if (injectStyles) {
+      hook = shadowMode ? function() {
+        injectStyles.call(
+          this,
+          (options.functional ? this.parent : this).$root.$options.shadowRoot
+        );
+      } : injectStyles;
+    }
+    if (hook) {
+      if (options.functional) {
+        options._injectStyles = hook;
+        var originalRender = options.render;
+        options.render = function renderWithStyleInjection(h, context) {
+          hook.call(context);
+          return originalRender(h, context);
+        };
+      } else {
+        var existing = options.beforeCreate;
+        options.beforeCreate = existing ? [].concat(existing, hook) : [hook];
+      }
+    }
+    return {
+      exports: scriptExports,
+      options
+    };
+  }
+  const _sfc_main$2 = {
+    data() {
+      return {
+        map: null,
+        attachedMarker: [],
+        attachedPopup: [],
+        options: null
+      };
+    },
+    computed: {
+      mapId() {
+        return `map-${this._uid}`;
+      },
+      center() {
+        if (!this.content.center) {
+          return [0, 20];
+        }
+        const markerNode = this.field("marker").fieldsets.marker.tabs.content.fields.coordinates;
+        const { name, lat, lng } = this.content.center;
+        markerNode.defaultName = name;
+        markerNode.defaultLat = lat;
+        markerNode.defaultLng = lng;
+        return [lng, lat];
+      },
+      marker() {
+        return this.content.marker.map(({ content }) => {
+          var _a, _b, _c, _d, _e, _f, _g, _h, _i, _j, _k, _l, _m, _n;
+          const imgSize = (_d = (_c = (_b = (_a = content.image) == null ? void 0 : _a[0]) == null ? void 0 : _b.info) == null ? void 0 : _c.split(" \xD7 ")) != null ? _d : [0, 0];
+          return {
+            image: (_f = (_e = content.image) == null ? void 0 : _e[0]) == null ? void 0 : _f.url,
+            width: imgSize[0] / 100 * content.size,
+            height: imgSize[1] / 100 * content.size,
+            lat: (_j = (_i = (_g = content.coordinates) == null ? void 0 : _g.lat) != null ? _i : (_h = content.coors) == null ? void 0 : _h.lat) != null ? _j : 0,
+            lng: (_n = (_m = (_k = content.coordinates) == null ? void 0 : _k.lng) != null ? _m : (_l = content.coors) == null ? void 0 : _l.lng) != null ? _n : 51,
+            anchor: content.anchor,
+            hasPopup: content.haspopup,
+            popup: content.popup,
+            popupOffset: content.popupoffset
+          };
+        });
+      }
+    },
+    watch: {
+      "content.style": function(value) {
+        if (this.map)
+          this.map.setStyle(`mapbox://styles/mapbox/${value}`);
+      },
+      "content.zoom": function(value) {
+        if (this.map)
+          this.map.setZoom(value);
+      },
+      center(value) {
+        if (this.map)
+          this.map.setCenter(value);
+      },
+      marker(value) {
+        this.attachedPopup.forEach((marker) => marker.remove());
+        this.attachedPopup = [];
+        this.attachedMarker.forEach((marker) => marker.remove());
+        this.attachedMarker = [];
+        this.setMarker(value);
+      }
+    },
+    created() {
+      const cdnUrl = "https://api.mapbox.com/mapbox-gl-js/v2.3.1";
+      let s;
+      const cssLib = "mapbox-gl.css";
+      if (!document.getElementById(cssLib)) {
+        s = document.createElement("link");
+        s.id = cssLib;
+        s.href = `${cdnUrl}/${cssLib}`;
+        s.rel = "stylesheet";
+        document.head.appendChild(s);
+      }
+      const jsLib = "mapbox-gl.js";
+      if (!document.getElementById(jsLib)) {
+        s = document.createElement("script");
+        s.id = jsLib;
+        s.addEventListener("load", this.initMap);
+        s.src = `${cdnUrl}/${jsLib}`;
+        document.body.appendChild(s);
+      } else {
+        this.initMap();
+      }
+    },
+    methods: {
+      async initMap() {
+        var _a, _b;
+        const options = await this.$api.get("map/options");
+        this.options = options;
+        mapboxgl.accessToken = this.options.token;
+        this.map = new mapboxgl.Map({
+          container: this.mapId,
+          center: this.center,
+          style: `mapbox://styles/mapbox/${(_a = this.content.style) != null ? _a : this.options.defaultStyle}`,
+          zoom: (_b = this.content.zoom) != null ? _b : 1
+        });
+        this.map.scrollZoom.disable();
+        this.setMarker(this.marker);
+      },
+      async setMarker(markerData) {
+        var _a;
+        if (!markerData)
+          return;
+        for (const marker of markerData) {
+          let markerEl = null;
+          if (marker.image) {
+            markerEl = document.createElement("div");
+            markerEl.className = "marker";
+            markerEl.style.backgroundImage = `url(${marker.image})`;
+            markerEl.style.width = `${marker.width}px`;
+            markerEl.style.height = `${marker.height}px`;
+            markerEl.style.backgroundSize = "100%";
+          }
+          const curMarker = new mapboxgl.Marker({
+            anchor: (_a = marker.anchor) != null ? _a : null,
+            element: markerEl
+          }).setLngLat([marker.lng, marker.lat]).addTo(this.map);
+          this.attachedMarker.push(curMarker);
+          if (marker.hasPopup) {
+            const curPopup = new mapboxgl.Popup({
+              offset: parseInt(marker.popupOffset),
+              focusAfterOpen: false
+            });
+            curPopup.setLngLat([marker.lng, marker.lat]);
+            curPopup.setHTML(marker.popup).addTo(this.map);
+            this.attachedPopup.push(curPopup);
+          }
+        }
+      }
+    }
+  };
+  var _sfc_render$2 = function render() {
+    var _vm = this, _c = _vm._self._c;
+    return _c("div", { staticClass: "embedded-maps" }, [_c("div", { staticClass: "embedded-map-item", attrs: { "id": _vm.mapId }, on: { "update": _vm.update } })]);
+  };
+  var _sfc_staticRenderFns$2 = [];
+  _sfc_render$2._withStripped = true;
+  var __component__$2 = /* @__PURE__ */ normalizeComponent(
+    _sfc_main$2,
+    _sfc_render$2,
+    _sfc_staticRenderFns$2,
+    false,
+    null,
+    null,
+    null,
+    null
+  );
+  __component__$2.options.__file = "/Users/romangsponer/Cloud/_sites/plugin-env/site/plugins/kirby-map/src/components/Map.vue";
+  const Maps = __component__$2.exports;
+  const Marker_vue_vue_type_style_index_0_lang = "";
+  const _sfc_main$1 = {
+    computed: {
+      url() {
+        var _a, _b, _c;
+        return (_c = (_b = (_a = this.content.image) == null ? void 0 : _a[0]) == null ? void 0 : _b.icon) == null ? void 0 : _c.url;
+      },
+      description() {
+        var _a, _b, _c;
+        return (_c = (_a = this.content.coordinates) == null ? void 0 : _a.name) != null ? _c : (_b = this.content.coors) == null ? void 0 : _b.name;
+      },
+      coordinates() {
+        return this.content.coordinates ? `${this.content.coordinates.lat},${this.content.coordinates.lng}` : this.content.coors ? "(This marker was created with an older version. Please set the position from scratch.)" : null;
+      }
+    }
+  };
+  var _sfc_render$1 = function render() {
+    var _vm = this, _c = _vm._self._c;
+    return _c("div", { staticClass: "marker-item", on: { "click": _vm.open } }, [_vm.url ? _c("div", { staticClass: "marker-item-image" }, [_c("img", { attrs: { "src": _vm.url } })]) : _vm._e(), _c("div", { staticClass: "marker-item-description" }, [_c("p", [_vm._v(_vm._s(_vm.description || _vm.$t("empty")))]), _c("p", [_vm._v(_vm._s(_vm.coordinates))])])]);
+  };
+  var _sfc_staticRenderFns$1 = [];
+  _sfc_render$1._withStripped = true;
+  var __component__$1 = /* @__PURE__ */ normalizeComponent(
+    _sfc_main$1,
+    _sfc_render$1,
+    _sfc_staticRenderFns$1,
+    false,
+    null,
+    null,
+    null,
+    null
+  );
+  __component__$1.options.__file = "/Users/romangsponer/Cloud/_sites/plugin-env/site/plugins/kirby-map/src/components/Marker.vue";
+  const Marker = __component__$1.exports;
+  const Geolocation_vue_vue_type_style_index_0_lang = "";
+  const _sfc_main = {
+    props: {
+      token: {
+        type: String,
+        required: true
+      },
+      label: {
+        type: String,
+        required: true
+      },
+      value: {
+        type: Object,
+        default() {
+          return {
+            name: void 0,
+            lat: void 0,
+            lng: void 0
+          };
+        }
+      },
+      required: Boolean,
+      disabled: Boolean,
+      default: {
+        type: Object,
+        default() {
+          return {
+            name: "",
+            lat: 0,
+            lng: 0
+          };
+        }
+      }
+    },
+    data() {
+      return {
+        geoData: [],
+        error: null
+      };
+    },
+    computed: {
+      mapId() {
+        return `map-${this._uid}`;
+      },
+      location() {
+        var _a, _b, _c, _d, _e, _f, _g, _h, _i, _j, _k, _l;
+        return {
+          name: (_d = (_c = (_a = this.value) == null ? void 0 : _a.name) != null ? _c : (_b = this.default) == null ? void 0 : _b.name) != null ? _d : "",
+          lat: (_h = (_g = (_e = this.value) == null ? void 0 : _e.lat) != null ? _g : (_f = this.default) == null ? void 0 : _f.lat) != null ? _h : 0,
+          lng: (_l = (_k = (_i = this.value) == null ? void 0 : _i.lng) != null ? _k : (_j = this.default) == null ? void 0 : _j.lng) != null ? _l : 0
+        };
+      },
+      dropdownOptions() {
+        return this.geoData.map(({ place_name, place_type, center }) => ({
+          name: place_name,
+          type: place_type[0],
+          lat: center[1],
+          lng: center[0]
+        }));
+      }
+    },
+    methods: {
+      async searchLocation(evt) {
+        if (!evt) {
+          this.$refs.dropdown.close();
+          return;
+        }
+        try {
+          const response = await fetch(
+            `https://api.mapbox.com/geocoding/v5/mapbox.places/${evt}.json?types=address,country,postcode,place,locality&limit=5&access_token=${this.token}`
+          );
+          const data = await response.json();
+          this.error = null;
+          if (data.features) {
+            const toShow = data.features.slice(0, 6);
+            if (toShow) {
+              this.geoData = toShow;
+              this.$refs.dropdown.open();
+            } else {
+              this.error = this.$t("maps.field.L.error.empty");
+              this.$refs.dropdown.close();
+            }
+          } else {
+            this.error = data.message;
+            this.$refs.dropdown.close();
+          }
+        } catch (err) {
+          this.$refs.dropdown.close();
+        }
+      },
+      selectDropdown(selection) {
+        delete selection.type;
+        this.$refs.dropdown.close();
+        this.$emit("input", selection);
+      },
+      setValue(value, key) {
+        let v = {
+          name: key === "name" ? value : this.location.name,
+          lat: key === "lat" ? value : this.location.lat,
+          lng: key === "lng" ? value : this.location.lng
+        };
+        this.$emit("input", v);
+        if (this.required && (!v.name || !v.lat || !v.lng)) {
+          this.error = this.$t("maps.field.geolocation.error");
+          return;
+        }
+        if (!v.name) {
+          this.error = this.$t("maps.field.geolocation.name.error");
+          return;
+        }
+        if (!v.lat || isNaN(v.lat) || Math.abs(v.lat) > 90) {
+          this.error = this.$t("maps.field.geolocation.lat.error");
+          return;
+        }
+        if (!v.lng || isNaN(v.lng) || Math.abs(v.lng) > 180) {
+          this.error = this.$t("maps.field.geolocation.lng.error");
+          return;
+        }
+        this.error = null;
+      }
+    }
+  };
+  var _sfc_render = function render() {
+    var _vm = this, _c = _vm._self._c;
+    return _c("k-field", { staticClass: "k-geolocation-field", attrs: { "label": _vm.label, "required": _vm.required, "disabled": _vm.disabled } }, [_c("k-text-field", { ref: "name", staticClass: "k-geolocation-search", attrs: { "type": "text", "theme": "field", "value": _vm.search, "icon": "search" }, on: { "input": _vm.searchLocation } }), _c("k-dropdown", [_c("k-dropdown-content", { ref: "dropdown" }, _vm._l(_vm.dropdownOptions, function(option, index) {
+      return _c("k-dropdown-item", { key: index, on: { "click": function($event) {
+        return _vm.selectDropdown(option);
+      } }, nativeOn: { "keydown": [function($event) {
+        if (!$event.type.indexOf("key") && _vm._k($event.keyCode, "enter", 13, $event.key, "Enter"))
+          return null;
+        $event.preventDefault();
+        return _vm.selectDropdown(option);
+      }, function($event) {
+        if (!$event.type.indexOf("key") && _vm._k($event.keyCode, "space", 32, $event.key, [" ", "Spacebar"]))
+          return null;
+        $event.preventDefault();
+        return _vm.selectDropdown(option);
+      }] } }, [_c("span", { domProps: { "innerHTML": _vm._s(
+        _vm.$t(`maps.field.geolocation.${option.type}`) + ": " + option.name
+      ) } })]);
+    }), 1)], 1), _c("k-input", { ref: "name", attrs: { "type": "text", "theme": "field", "value": _vm.location.name, "before": _vm.$t("maps.field.geolocation.name") }, on: { "input": function($event) {
+      return _vm.setValue($event, "name");
+    } } }), _c("k-input", { ref: "lat", attrs: { "type": "text", "theme": "field", "value": _vm.location.lat, "before": _vm.$t("maps.field.geolocation.lat") }, on: { "input": function($event) {
+      return _vm.setValue($event, "lat");
+    } } }), _c("k-input", { ref: "lng", attrs: { "type": "text", "theme": "field", "value": _vm.location.lng, "before": _vm.$t("maps.field.geolocation.lng") }, on: { "input": function($event) {
+      return _vm.setValue($event, "lng");
+    } } }), _vm.error ? _c("k-box", { attrs: { "text": _vm.error, "theme": "negative" } }) : _vm._e()], 1);
+  };
+  var _sfc_staticRenderFns = [];
+  _sfc_render._withStripped = true;
+  var __component__ = /* @__PURE__ */ normalizeComponent(
+    _sfc_main,
+    _sfc_render,
+    _sfc_staticRenderFns,
+    false,
+    null,
+    null,
+    null,
+    null
+  );
+  __component__.options.__file = "/Users/romangsponer/Cloud/_sites/plugin-env/site/plugins/kirby-map/src/components/Geolocation.vue";
+  const Geolocation = __component__.exports;
+  window.panel.plugin("microman/map", {
+    blocks: {
+      marker: Marker,
+      maps: Maps
+    },
+    fields: {
+      geolocation: Geolocation
+    }
+  });
+})();

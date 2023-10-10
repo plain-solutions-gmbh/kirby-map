@@ -1,5 +1,5 @@
 name: map.blocks.marker.name
-icon: marker
+icon: pin
 
 fields:
   coordinates:

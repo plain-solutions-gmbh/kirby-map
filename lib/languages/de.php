@@ -21,6 +21,9 @@ return [
 	'maps.field.geolocation.lat'						=> 'Breitengrad (Lat)',
 	'maps.field.geolocation.lng'						=> 'Längengrad (Lng)',
 
+	'maps.search.error'									=> 'Fehler in der Abfrage',
+	'maps.search.empty'									=> 'Bitte einen Begriff eingeben',
+
 	'maps.field.geolocation.error'						=> 'Fehler: Felder nicht alle ausgefüllt',
 	'maps.field.geolocation.name.error'					=> 'Fehler: Standort',
 	'maps.field.geolocation.lat.error'					=> 'Fehler: Breitengrad (Lat)',

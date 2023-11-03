@@ -1,37 +1,33 @@
 <template>
   <k-field
     class="k-geolocation-field"
+    v-bind="$props"
     :label="label"
     :required="required"
     :disabled="disabled"
   >
-    <k-text-field
-      ref="name"
-      class="k-geolocation-search"
-      type="text"
-      theme="field"
-      :value="search"
-      icon="search"
-      @input="searchLocation"
-    />
+    <template #options>
+      <k-button :text="$t('search')" icon="search" @click="openSearch()" />
+    </template>
 
-    <k-dropdown-content ref="dropdown">
-      <k-dropdown-item
-        v-for="(option, index) in dropdownOptions"
-        :key="index"
-        @click="selectDropdown(option)"
-        @keydown.native.enter.prevent="selectDropdown(option)"
-        @keydown.native.space.prevent="selectDropdown(option)"
-      >
-        <!-- eslint-disable vue/no-v-html -->
-        <span
-          v-html="
-            $t(`maps.field.geolocation.${option.type}`) + ': ' + option.name
-          "
-        />
-        <!-- eslint-enable vue/no-v-html -->
-      </k-dropdown-item>
-    </k-dropdown-content>
+    <k-dialog ref="search" size="medium" :submitbutton="false">
+      <k-text-field
+        ref="name"
+        class="k-geolocation-search"
+        type="text"
+        theme="field"
+        :label="$t('map.blocks.marker.location.name')"
+        :value="search"
+        icon="search"
+        @input="searchLocation($event)"
+      />
+
+      <k-collection
+        :items="dropdownOptions"
+        :empty="{ icon: 'alert', text: $t(searchError, 1) }"
+        @item="selectDropdown($event)"
+      />
+    </k-dialog>
 
     <k-input
       ref="name"
@@ -103,6 +99,7 @@ export default {
     return {
       geoData: [],
       error: null,
+      searchError: "search.min",
     };
   },
 
@@ -121,8 +118,9 @@ export default {
 
     dropdownOptions() {
       return this.geoData.map(({ place_name, place_type, center }) => ({
+        text: place_name,
         name: place_name,
-        type: place_type[0],
+        info: this.$t(`maps.field.geolocation.${place_type[0]}`),
         lat: center[1],
         lng: center[0],
       }));
@@ -131,45 +129,52 @@ export default {
 
   methods: {
     async searchLocation(evt) {
-      if (!evt) {
-        this.$refs.dropdown.close();
+      if (evt.length === 0) {
+        this.searchError = "maps.search.empty";
         return;
       }
 
+      this.geoData = [];
       try {
         const response = await fetch(
           `https://api.mapbox.com/geocoding/v5/mapbox.places/${evt}.json?types=address,country,postcode,place,locality&limit=5&access_token=${this.token}`
         );
         const data = await response.json();
-        this.error = null;
+        this.searchError = "maps.field.geolocation.error.empty";
 
         if (data.features) {
-          const toShow = data.features.slice(0, 6);
+          const toShow = data.features.slice(0, 8);
 
           if (toShow) {
             this.geoData = toShow;
-            this.$refs.dropdown.open();
           } else {
-            this.error = this.$t("maps.field.L.error.empty");
-            this.$refs.dropdown.close();
+            this.searchError = "maps.search.error";
           }
         } else {
-          this.error = data.message;
-          this.$refs.dropdown.close();
+          this.searchError = data?.message;
         }
       } catch (err) {
-        this.$refs.dropdown.close();
+        this.searchError = "maps.search.error";
       }
     },
 
+    openSearch() {
+      this.geoData = [];
+      this.searchError = "maps.search.empty";
+      this.$refs.search.open();
+    },
+
     selectDropdown(selection) {
+      console.log(selection);
+      this.$refs.search.close();
+
       delete selection.type;
-      this.$refs.dropdown.close();
+      delete selection.text;
+      this.$refs.search.close();
       this.$emit("input", selection);
     },
 
     setValue(value, key) {
-
       let v = {
         name: key === "name" ? value : this.location.name,
         lat: key === "lat" ? value : this.location.lat,
@@ -205,7 +210,7 @@ export default {
 </script>
 
 <style>
-.k-geolocation-search > header {
-  display: none;
+.k-geolocation-search {
+  margin-bottom: var(--spacing-4);
 }
 </style>

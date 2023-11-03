@@ -23,7 +23,7 @@
     ],
     'fieldMethods' => [
         'toLocation' => function ($field) {
-            $structure = new Structure([$field->yaml()], $field->parent());
+            $structure = Structure::factory([$field->yaml()], ['parent' => $field->parent()]);
             return $structure->first();
         }
     ],

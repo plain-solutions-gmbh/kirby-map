@@ -21,6 +21,9 @@ return [
 	'maps.field.geolocation.lat'						=> 'Latitude (Lat)',
 	'maps.field.geolocation.lng'						=> 'Longitude (Lng)',
 
+	'maps.search.error'									=> 'Error on location request',
+	'maps.search.empty'									=> 'Please enter a search query',
+
 	'maps.field.geolocation.error'						=> 'Error: Values not set',
 	'maps.field.geolocation.name.error'					=> 'Error: Location',
 	'maps.field.geolocation.lat.error'					=> 'Error: Latitude (Lat)',

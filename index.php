@@ -23,7 +23,13 @@
     ],
     'fieldMethods' => [
         'toLocation' => function ($field) {
-            $structure = Structure::factory([$field->yaml()], ['parent' => $field->parent()]);
+            try {
+                //Kirby4 compatibility
+                $structure = Structure::factory([$field->yaml()], ['parent' => $field->parent()]);
+            } catch (\Throwable $th) {
+                //Kirby3 compatibility
+                $structure = new Structure([$field->yaml()], $field->parent());
+            }
             return $structure->first();
         }
     ],

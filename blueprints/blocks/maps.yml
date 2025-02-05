@@ -1,5 +1,6 @@
 name: maps.blocks.maps.name
 icon: map
+wysiwyg: true
 
 fields:
   style:

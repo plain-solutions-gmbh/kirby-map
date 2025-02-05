@@ -10,27 +10,7 @@
       <k-button :text="$t('search')" icon="search" @click="openSearch()" />
     </template>
 
-    <k-dialog ref="search" size="medium" :submitbutton="false">
-      <k-text-field
-        ref="name"
-        class="k-geolocation-search"
-        type="text"
-        theme="field"
-        :label="$t('map.blocks.marker.location.name')"
-        :value="search"
-        icon="search"
-        @input="searchLocation($event)"
-      />
-
-      <k-collection
-        :items="dropdownOptions"
-        :empty="{ icon: 'alert', text: $t(searchError, 1) }"
-        @item="selectDropdown($event)"
-      />
-    </k-dialog>
-
     <k-input
-      ref="name"
       type="text"
       theme="field"
       :value="location.name"
@@ -39,7 +19,6 @@
     />
 
     <k-input
-      ref="lat"
       type="text"
       theme="field"
       :value="location.lat"
@@ -48,7 +27,6 @@
     />
 
     <k-input
-      ref="lng"
       type="text"
       theme="field"
       :value="location.lng"
@@ -97,7 +75,6 @@ export default {
 
   data() {
     return {
-      geoData: [],
       error: null,
       searchError: "search.min",
     };
@@ -115,63 +92,24 @@ export default {
         lng: this.value?.lng ?? this.default?.lng ?? 0,
       };
     },
-
-    dropdownOptions() {
-      return this.geoData.map(({ place_name, place_type, center }) => ({
-        text: place_name,
-        name: place_name,
-        info: this.$t(`maps.field.geolocation.${place_type[0]}`),
-        lat: center[1],
-        lng: center[0],
-      }));
-    },
   },
 
   methods: {
-    async searchLocation(evt) {
-      if (evt.length === 0) {
-        this.searchError = "maps.search.empty";
-        return;
-      }
-
-      this.geoData = [];
-      try {
-        const response = await fetch(
-          `https://api.mapbox.com/geocoding/v5/mapbox.places/${evt}.json?types=address,country,postcode,place,locality&limit=5&access_token=${this.token}`
-        );
-        const data = await response.json();
-        this.searchError = "maps.field.geolocation.error.empty";
-
-        if (data.features) {
-          const toShow = data.features.slice(0, 8);
-
-          if (toShow) {
-            this.geoData = toShow;
-          } else {
-            this.searchError = "maps.search.error";
-          }
-        } else {
-          this.searchError = data?.message;
-        }
-      } catch (err) {
-        this.searchError = "maps.search.error";
-      }
-    },
-
     openSearch() {
-      this.geoData = [];
       this.searchError = "maps.search.empty";
-      this.$refs.search.open();
-    },
-
-    selectDropdown(selection) {
-      console.log(selection);
-      this.$refs.search.close();
-
-      delete selection.type;
-      delete selection.text;
-      this.$refs.search.close();
-      this.$emit("input", selection);
+      const _this = this;
+      this.$panel.dialog.open({
+        component: "geolocationSearchDialog",
+        props: {
+          token: this.token,
+        },
+        on: {
+          input(val) {
+            _this.$emit("input", val);
+            _this.$panel.dialog.close();
+          },
+        },
+      });
     },
 
     setValue(value, key) {
@@ -208,9 +146,3 @@ export default {
   },
 };
 </script>
-
-<style>
-.k-geolocation-search {
-  margin-bottom: var(--spacing-4);
-}
-</style>

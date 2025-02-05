@@ -7,6 +7,8 @@ return [
 	'maps.blocks.maps.center.name'    					=> 'Mittelpunkt',
 	'maps.blocks.maps.zoom.name'      					=> 'Zoomfaktor',
 	'maps.blocks.maps.marker.name' 						=> 'Pins',
+	'maps.blocks.button.center'							=> 'Mitte setzen',
+	'maps.blocks.button.pin'							=> 'Pin einfügen',
 	'map.blocks.marker.name'							=> 'Pin',
 	'map.blocks.marker.location.name'					=> 'Ort suchen',
 	'map.blocks.marker.marker.name'						=> 'Bild',
@@ -35,5 +37,8 @@ return [
 	'maps.field.geolocation.postcode'					=> 'Postleitzahl',
 	'maps.field.geolocation.place'						=> 'Ort',
 	'maps.field.geolocation.locality'					=> 'Lokalität',
-	'maps.field.geolocation.region'						=> 'Region'
+	'maps.field.geolocation.region'						=> 'Region',
+
+	'maps.error.token'									=> 'Bitte gib ein Access Token für MapBox an!',
+	'maps.error.timeout'								=> 'Es ist ein Fehler aufgetreten.'
 ];

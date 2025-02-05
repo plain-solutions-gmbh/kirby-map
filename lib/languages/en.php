@@ -7,6 +7,8 @@ return [
 	'maps.blocks.maps.center.name'    					=> 'Center',
 	'maps.blocks.maps.zoom.name'      					=> 'Zoom',
 	'maps.blocks.maps.marker.name' 						=> 'Markers',
+	'maps.blocks.button.center'							=> 'Set center',
+	'maps.blocks.button.pin'							=> 'Add Marker',
 	'map.blocks.marker.name'							=> 'Marker',
 	'map.blocks.marker.location.name'					=> 'Location',
 	'map.blocks.marker.marker.name'						=> 'Icon',
@@ -35,5 +37,8 @@ return [
 	'maps.field.geolocation.postcode'					=> 'Postcode',
 	'maps.field.geolocation.place'						=> 'Place',
 	'maps.field.geolocation.locality'					=> 'Locality',
-	'maps.field.geolocation.region'						=> 'Region'
+	'maps.field.geolocation.region'						=> 'Region',
+
+	'maps.error.token'									=> 'Please provide an access token for mapbox!',
+	'maps.error.timeout'								=> 'An error has occurred.'
 ];

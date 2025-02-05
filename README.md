@@ -35,9 +35,8 @@
 
 ## Configuration
 
-Kirby Map uses [Mapbox](https://www.mapbox.com/) for geolocation and map view. For internal purposes, a default token is already set. You probably want to replace that for your specific use-case.
-
-To use Mapbox on your website, create your very own [access token](https://docs.mapbox.com/help/getting-started/access-tokens) and set it in your config file: `/site/config/config.php`
+Kirby Map uses [Mapbox](https://www.mapbox.com/) for geolocation and map view.
+To use this Plugin, create your very own [access token](https://docs.mapbox.com/help/getting-started/access-tokens) and set it in your config file: `/site/config/config.php`
 
 ```php
 return [
@@ -110,4 +109,4 @@ Powered by [Mapbox](https://www.mapbox.com/). Inspired by [Sylvain's Kirby-Locat
 
 MIT
 
-> Do you like this Plugin? [Buy me a ☕️](https://www.paypal.com/donate/?hosted_button_id=LBCLZVHS4K2R6)
+> Do you like this Plugin? [Buy me a ☕️](https://license.microman.ch/?product=801557)

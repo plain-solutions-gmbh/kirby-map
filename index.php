@@ -1,9 +1,13 @@
 <?php
 
-\Kirby\Cms\App::plugin('microman/map', [
+use Kirby\Cms\App;
+use Kirby\Cms\Structure;
+use Kirby\Data\Yaml;
+
+$setup = [
     'options' => [
-        'token'         => 'pk.eyJ1IjoibWljcm9tYW4iLCJhIjoiY2txOWg0ZDg2MDJqdDJxbW9sMGNhbjFwaCJ9.j7h8Wv0LnS2QqmuL7VR6wQ',
-        'defaultStyle'  => 'streets-v11',
+        'defaultStyle'  => 'satellite-streets-v11',
+        'token'         => null
     ],
     'blueprints' => [
         'blocks/maps' => __DIR__ . '/blueprints/blocks/maps.yml',
@@ -16,6 +20,7 @@
                     return Yaml::decode($value);
                 },
                 'token' => function () {
+                    $a = option('panel');
                     return option('microman.map.token');
                 }
             ]
@@ -50,4 +55,23 @@
         'en' => require __DIR__ . '/lib/languages/en.php',
         'de' => require __DIR__ . '/lib/languages/de.php'
     ]
-]);
+];
+
+//Extend downwards compatibility
+if (version_compare(App::version() ?? '0.0.0', '4.9.9', '>')) {
+    /** @disregard P1044 */
+    App::plugin('microman/map', $setup, license: [
+        'name'     => 'MIT',
+        'status'    => [
+            'value'     => 'missing',
+            'link'      => 'https://license.microman.ch/?product=801557',
+            'theme'     => 'orange',
+            'label'     => 'Buy me a coffee',
+            'icon'      => 'cup',
+
+        ]
+    ]); 
+} else {
+    App::plugin('microman/map', $setup);
+}
+

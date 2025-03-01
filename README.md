@@ -1,4 +1,4 @@
-# Kirby Map
+# Kirby Map Suite
 
 ## Overview
 
@@ -19,28 +19,30 @@
     - anchor of the icon (`top left`, `center center`, `bottom right`, etc.)
     - size of the Icon (100% = original size)
     - popup: text and horizontal offset to the location
+  
+> Since version 2.1.0 introduces many new features, this plugin is now subject to GPL-3.0-only license. To use the MIT license, please refer to the last free version, 1.1.1.
 
-
-> This plugin is free to use and published under the MIT license. If you use this plugin for commercial purposes, or you want to show your appreciation. [support me with a donation](https://www.paypal.com/donate/?hosted_button_id=LBCLZVHS4K2R6).
 
 ## Installation
 
 **Manually**
 
-[Download](https://github.com/youngcut/kirby-map) and copy the plugin into your plugin folder: `/site/plugins/`
+[Download](https://github.com/plain-solutions-gmbh/kirby-map) and copy the plugin into your plugin folder: `/site/plugins/`
 
 **With Composer**
 
-`composer require microman/kirby-map`
+`composer require getplain/kirby-map`
 
 ## Configuration
+
+> DEPRECATION-WARNING: Option prefix changed since version 2.0.1 (old: micorman.* | new: plain.*)
 
 Kirby Map uses [Mapbox](https://www.mapbox.com/) for geolocation and map view.
 To use this Plugin, create your very own [access token](https://docs.mapbox.com/help/getting-started/access-tokens) and set it in your config file: `/site/config/config.php`
 
 ```php
 return [
-  'microman.map.token' => 'YOUR-TOKEN'
+  'plain.map.token' => 'YOUR-TOKEN'
 ];
 ```
 
@@ -105,8 +107,9 @@ If you want to use the [Google Maps JavaScript API](https://developers.google.co
 
 Powered by [Mapbox](https://www.mapbox.com/). Inspired by [Sylvain's Kirby-Locator](https://github.com/sylvainjule/kirby-locator)
 
-## License
 
-MIT
+# License
 
-> Do you like this Plugin? [Buy me a ☕️](https://license.microman.ch/?product=801557)
+By using this project, you agree to the terms and conditions outlined in our [Terms of Service](https://plain-solutions.net/terms). 
+
+To acquire a license for this project, please visit our [Licensing Page](https://plain-solutions.net/906071).

@@ -1,19 +1,28 @@
 {
-    "name": "microman/kirby-map",
+    "name": "plain/kirby-map",
     "description": "Geolocation field & map block: All you need for a map on your website",
     "type": "kirby-plugin",
-    "version": "2.0.0",
-    "license": "MIT",
-    "authors": [{
-        "name": "Roman Gsponer",
-        "email": "kirby@microman.ch"
-    }],
-    "require": {
-        "getkirby/composer-installer": "^1.2"
-    },
-    "config": {
-        "allow-plugins": {
-            "getkirby/composer-installer": true
-        }
-    }
+    "version": "2.1.0",
+    "license": "GPL-3.0-only",
+	"homepage": "https://plain-solutions.net/906071",
+	"authors": [
+		{
+			"name": "Roman Gsponer",
+			"email": "kirby@plain-solutions.net"
+		}
+	],
+	"require": {
+		"getkirby/composer-installer": "^1.1"
+	},
+	"autoload": {
+		"psr-4": {
+			"Plain\\Helpers\\": "utils/"
+		}
+	},
+	"config": {
+		"optimize-autoloader": true
+	},
+	"extra": {
+		"title": "Map Suite"
+	}
 }

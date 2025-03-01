@@ -6,7 +6,7 @@ fields:
   style:
     label: maps.blocks.maps.style.name
     type: select
-    default: "light-v10"
+    default: satellite-streets-v11
     options:
       - streets-v11
       - outdoors-v11
@@ -18,9 +18,7 @@ fields:
       - navigation-night-v1
     width: 1/2
   enable_zoom:
-    label:
-      de: Zoom aktivieren
-      en: Enable Zoom
+    label: maps.blocks.maps.enable_zoom.name
     width: 1/2
     type: toggle
     default: true 
@@ -31,7 +29,7 @@ fields:
     width: 1/2
 
   zoom:
-    Label: maps.blocks.maps.zoom.name
+    label: maps.blocks.maps.zoom.name
     type: range
     min: 1
     max: 20

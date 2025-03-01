@@ -1,21 +1,25 @@
-<div id="embedded-map-<?= $block->id() ?>" class="block" style="width: 100%; height: 100%; min-height: 400px;"></div>
+
+<?php
+ $center = $block->center()->toLocation(); 
+ $map_id = 'map' . Kirby\Toolkit\Str::slug($block->id(), '_');
+?>
+
+<div id="embedded-map-<?= $map_id ?>" class="block" style="width: 100%; height: 100%; min-height: 400px; text-align:center"><p style="position:absolute;top:50%;left:50%;transform:translate(-50%, -50%);">Unable to load map!</p></div>
 
 <script src="https://api.mapbox.com/mapbox-gl-js/v2.3.1/mapbox-gl.js"></script>
 <link href="https://api.mapbox.com/mapbox-gl-js/v2.3.1/mapbox-gl.css" rel="stylesheet">
 
-<?php $center = $block->center()->toLocation(); ?>
-
 <script>
-mapboxgl.accessToken = "<?= option('microman.map.token') ?>";
-const map = new mapboxgl.Map({
-  container: "embedded-map-<?= $block->id() ?>",
+mapboxgl.accessToken = "<?= option('plain.map.token') ?>";
+const <?= $map_id ?> = new mapboxgl.Map({
+  container: "embedded-map-<?= $map_id ?>",
   style: "mapbox://styles/mapbox/<?= $block->style() ?>",
   center: [<?= str_replace(',', '.', $center->lng()) ?>, <?= str_replace(',', '.', $center->lat() ) ?>],
   zoom: <?= $block->zoom()->or(12) ?>
 });
 
 <?php if (!$block->enable_zoom()->isTrue()) : ?>
-  map.scrollZoom.disable()
+  <?= $map_id ?>.scrollZoom.disable()
 <?php endif ?>
 
 <?php foreach ($block->marker()->toBlocks() as $marker):
@@ -46,7 +50,7 @@ const map = new mapboxgl.Map({
     <?= $markerObj ?>.getElement().id = "<?= $marker->uid()->value(); ?>" 
   <?php endif ?>
     <?= $markerObj ?>.setLngLat([<?= str_replace(',', '.', $coordinates->lng()) ?>, <?= str_replace(',', '.', $coordinates->lat()) ?>])
-    <?= $markerObj ?>.addTo(map)
+    <?= $markerObj ?>.addTo(<?= $map_id ?>)
   <?php if ($marker->hasPopup()->isTrue()): ?>
     <?= $markerObj ?>.setPopup(new mapboxgl.Popup({
       offset: <?= $marker->popupOffset() ?>

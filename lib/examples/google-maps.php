@@ -1,12 +1,18 @@
-<div id="embedded-map-<?= $block->id() ?>" class="block" style="width: 100%; height: 100%; min-height: 400px;"></div>
+<?php 
 
-<?php $center = $block->center()->toLocation(); ?>
+  $center = $block->center()->toLocation();
+  $map_id = 'map' . Kirby\Toolkit\Str::slug($block->id(), '_');
+  
+?>
+
+<div id="embedded-map-<?= $map_id ?>" class="block" style="width: 100%; height: 100%; min-height: 400px;"></div>
+
 
 <script type="module">
-let map;
+let <?= $map_id ?>;
 
 window.kirbyMap.init = function () {
-  map = new google.maps.Map(document.getElementById("embedded-map-<?= $block->id() ?>"), {
+  <?= $map_id ?> = new google.maps.Map(document.getElementById("embedded-map-<?= $map_id ?>"), {
     center: {
       lat: <?= $center->lat() ?>,
       lng: <?= $center->lng() ?>
@@ -25,7 +31,7 @@ window.kirbyMap.init = function () {
         lat: <?= $coordinates->lat() ?>,
         lng: <?= $coordinates->lng() ?>,
       },
-      map,
+      <?= $map_id ?>,
       title: "<?= $coordinates->name() ?>",
       <?php if ($image = $marker->image()->toFile()):
         $width = number_format($image->width() / 100 * $marker->size()->int());
@@ -75,7 +81,7 @@ window.kirbyMap.init = function () {
       marker<?= $marker->indexOf() ?>.addEventListener("click", () => {
         infowindow<?= $marker->indexOf() ?>.open({
           anchor: marker<?= $marker->indexOf() ?>,
-          map,
+          <?= $map_id ?>,
           shouldFocus: false,
         });
       });

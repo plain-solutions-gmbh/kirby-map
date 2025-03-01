@@ -39,6 +39,7 @@
     <div class="embedded-maps">
       <div :id="mapId" class="embedded-map-item" @update="update"></div>
     </div>
+    <k-plain-license prefix="map" />
   </div>
 </template>
 
@@ -49,7 +50,7 @@ export default {
       map: null,
       attachedMarker: [],
       attachedPopup: [],
-      options: null,
+      token: null,
       fail: "",
       lock: true,
       newCenter: false,
@@ -151,28 +152,41 @@ export default {
 
   methods: {
     async initMap() {
-      const options = await this.$api.get("map/options");
-      this.options = options;
+      const $this = this;
 
-      if (options.token === null) {
-        return (this.fail = this.$t("maps.error.token"));
+      this.token ??= (await this.$api.get("map/options"))["token"];
+
+      if (this.token === null) {
+        return (this.fail = $this.setError(
+          "Token missing (Check: https://github.com/plain-solutions-gmbh/kirby-map?tab=readme-ov-file#configuration)"
+        ));
       }
-
-      const watchdog = setTimeout(() => {
-        this.fail = this.$t("maps.error.timeout");
-      }, 1000);
-
       // eslint-disable-next-line no-undef
-      mapboxgl.accessToken = this.options.token;
+      mapboxgl.accessToken = this.token;
 
       // eslint-disable-next-line no-undef
       this.map = new mapboxgl.Map({
         container: this.mapId,
         center: this.center,
-        style: `mapbox://styles/mapbox/${
-          this.content.style ?? this.options.defaultStyle
-        }`,
+        style: "mapbox://styles/mapbox/" + this.content.style,
         zoom: this.content.zoom ?? 1,
+      });
+
+      this.map.on("error", function (e) {
+        if (e.error === "ee") {
+          $this.setError("Fail to fetch mapbox. Check your api token.");
+          return;
+        }
+
+        //Mapbox return undeclared error. Try to fetch manualy
+        fetch(e.error.url)
+          .then((res) => res.json())
+          .then((data) => {
+            $this.setError(data.message);
+          })
+          .catch((error) => {
+            $this.setError(error);
+          });
       });
 
       this.toggleLock(this.content.center.length === 0);
@@ -186,8 +200,6 @@ export default {
       });
 
       this.setMarker(this.marker);
-
-      clearTimeout(watchdog);
     },
 
     async setMarker(markerData) {
@@ -254,6 +266,10 @@ export default {
           this.attachedPopup.push(curPopup);
         }
       }
+    },
+    setError(msg) {
+      this.fail = this.$t("maps.error");
+      console.error("Kirby-Map: " + msg);
     },
     setNewCenter() {
       this.content.center = this.map.getCenter().wrap();

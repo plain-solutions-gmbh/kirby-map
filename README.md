@@ -31,7 +31,7 @@
 
 **With Composer**
 
-`composer require getplain/kirby-map`
+`composer require plain/kirby-map`
 
 ## Configuration
 

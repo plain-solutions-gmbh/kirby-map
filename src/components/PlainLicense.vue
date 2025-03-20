@@ -34,7 +34,7 @@ export default {
   computed: {
     licenseText() {
       if (!this.license) return "";
-      return `<strong>${this.license.title}</strong><br />${this.license.cta}`;
+      return `<strong>${this.license.title}</strong><br />${this.$t(this.license.cta)}`;
     },
     containerStyle() {
       return this.styling && this.styling.container

@@ -72,14 +72,14 @@ class License
         return new self($name, $info);
     }
 
-    public function getLicenseObject(string $locale = null): ?array
+    public function getLicenseObject(?string $locale = null): ?array
     {
         if (static::isValid()) {
             return null;
         }
         return [
             'title'     => $this->title,
-            'cta'       => i18n::translate('license.activate.label', locale: $locale),
+            'cta'       => 'license.activate.label',
             'dialog'    => $this->prefix . "/register"
         ];
     }

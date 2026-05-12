@@ -124,7 +124,9 @@ export default {
   },
 
   created() {
-    const cdnUrl = "https://api.mapbox.com/mapbox-gl-js/v3.9.4";
+    //Downgrade due issue #22
+    //const cdnUrl = "https://api.mapbox.com/mapbox-gl-js/v3.9.4";
+    const cdnUrl = "https://api.mapbox.com/mapbox-gl-js/v2.3.1";
     let s;
 
     // Inject Mapbox library styles

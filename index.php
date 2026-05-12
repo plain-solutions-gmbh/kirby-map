@@ -9,8 +9,5 @@ if (option('microman.map.token')) {
     throw new Exception('Deprecation error: Option prefix microman.map changed to plain.map in config.php');
 };
 
-Plugin::load(
-    'plain/map',
-    ['options' => ['token' => null]],
-     autoloader: ['blueprints', 'snippets', 'config', 'fields', 'translations']
-);
+
+Plugin::load('plain/map', autoloader: true);

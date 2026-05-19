@@ -72,11 +72,11 @@ class License
         return new self($name, $info);
     }
 
-    private function saveTranslate($key) {
-        return App::instance()->translation()->get($key);
+    public function saveTranslate($key) {
+        return App::instance()->translation()->get($key) ?? App::instance()->translation('en')->get($key);
     }
 
-    public function getLicenseObject(string $locale = null): ?array
+    public function getLicenseObject(): ?array
     {
         if (static::isValid()) {
             return null;
@@ -156,7 +156,7 @@ class License
             ],
             'translations' => [
                 $lang => [
-                    "plain.licenses.$prefix" => $this->getLicenseObject($lang)
+                    "plain.licenses.$prefix" => $this->getLicenseObject()
                 ]
             ],
         ]);
@@ -185,25 +185,25 @@ class License
                                 'type'  => 'headline'
                             ],
                             'domain' => [
-                                'label' => $this->saveTranslate('license.activate.label'),
+                                'label' => $license_obj->saveTranslate('license.activate.label'),
                                 'type'  => 'info',
                                 'theme' => $local ? 'warning' : 'info',
                                 'text'  => Str::replace($text, 'Kirby', $license_obj->title)
                             ],
                             'license' => [
-                                'label'       => $this->saveTranslate('license.code.label'),
+                                'label'       => $license_obj->saveTranslate('license.code.label'),
                                 'type'        => 'text',
                                 'required'    => true,
                                 'counter'     => false,
                                 'placeholder' => '',
-                                'help'        => $this->saveTranslate('license.code.help') . ' ' . '<a href="' . $license_obj->link . '" target="_blank">' . $this->saveTranslate('license.buy') . ' &rarr;</a>'
+                                'help'        => $license_obj->saveTranslate('license.code.help') . ' ' . '<a href="' . $license_obj->link . '" target="_blank">' . $license_obj->saveTranslate('license.buy') . ' &rarr;</a>'
                             ],
                             'email' => Field::email(['required' => true]),
                             'license_id' => Field::hidden()
                         ],
                         'submitButton' => [
                             'icon'  => 'key',
-                            'text'  => $this->saveTranslate('activate'),
+                            'text'  => $license_obj->saveTranslate('activate'),
                             'theme' => 'love',
                         ],
                         'value' => [

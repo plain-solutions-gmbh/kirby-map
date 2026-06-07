@@ -68,14 +68,7 @@ export default {
         return [0, 20];
       }
 
-      const markerNode =
-        this.field("marker").fieldsets.marker.tabs.content.fields.coordinates;
-      const { name, lat, lng } = this.content.center;
-
-      // Set default values for new markers
-      markerNode.defaultName = name;
-      markerNode.defaultLat = lat;
-      markerNode.defaultLng = lng;
+      const { lat, lng } = this.content.center;
 
       return [lng, lat];
     },
@@ -230,18 +223,18 @@ export default {
 
         curMarker.getElement().addEventListener("click", () => {
           const _this = this;
+          const fieldset = this.markerFieldset();
+          const value = this.$helper.object.clone(
+            this.content.marker[i].content
+          );
+
           this.$panel.drawer.open({
             component: "k-form-drawer",
-            props: this.$helper.object.merge(
-              this.field("marker").fieldsets.marker,
-              {
-                value: this.content.marker[i].content,
-              }
-            ),
+            props: this.$helper.object.merge(fieldset, { value }),
             on: {
               input(value) {
                 _this.content.marker[i].content = value;
-                _this.$emit("update", this.content);
+                _this.$emit("update", _this.content);
               },
             },
           });
@@ -268,6 +261,24 @@ export default {
           this.attachedPopup.push(curPopup);
         }
       }
+    },
+    markerFieldset() {
+      const fieldName = "marker";
+      const blockField = this.field(fieldName);
+      const fieldset = this.$helper.object.clone(blockField.fieldsets.marker);
+
+      for (const tab of Object.values(fieldset.tabs ?? {})) {
+        for (const [name, field] of Object.entries(tab.fields ?? {})) {
+          field.section = fieldName;
+          field.endpoints = {
+            field: `${blockField.endpoints.field}/fieldsets/marker/fields/${name}`,
+            section: blockField.endpoints.section,
+            model: blockField.endpoints.model,
+          };
+        }
+      }
+
+      return fieldset;
     },
     setError(msg) {
       this.fail = this.$t("maps.error");

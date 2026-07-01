@@ -4,17 +4,23 @@
     "type": "kirby-plugin",
     "version": "2.1.9",
     "license": "MIT",
-	"homepage": "https://plain-solutions.net/906071",
-	"authors": [
-		{
-			"name": "Roman Gsponer",
-			"email": "kirby@plain-solutions.net"
-		}
-	],
-	"require": {
-		"getkirby/composer-installer": "^1.1"
-	},
-	"extra": {
-		"title": "Map Suite"
-	}
+    "homepage": "https://plain-solutions.net/906071",
+    "authors": [
+        {
+            "name": "Roman Gsponer",
+            "email": "kirby@plain-solutions.net"
+        }
+    ],
+    "require": {
+        "getkirby/composer-installer": "^1.1"
+    },
+    "extra": {
+        "title": "Map Suite"
+    },
+    "funding": [
+        {
+            "type": "PayPal",
+            "url": "https://www.paypal.com/donate/?hosted_button_id=LBCLZVHS4K2R6"
+        }
+    ]
 }

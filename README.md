@@ -19,9 +19,6 @@
     - anchor of the icon (`top left`, `center center`, `bottom right`, etc.)
     - size of the Icon (100% = original size)
     - popup: text and horizontal offset to the location
-  
-> Since version 2.1.0 introduces many new features, this plugin is now subject to GPL-3.0-only license. To use the MIT license, please refer to the last free version, 1.1.1.
-
 
 ## Installation
 
@@ -110,6 +107,4 @@ Powered by [Mapbox](https://www.mapbox.com/). Inspired by [Sylvain's Kirby-Locat
 
 # License
 
-By using this project, you agree to the terms and conditions outlined in our [Terms of Service](https://plain-solutions.net/terms). 
-
-To acquire a license for this project, please visit our [Licensing Page](https://plain-solutions.net/906071).
+MIT

@@ -39,7 +39,6 @@
     <div class="embedded-maps">
       <div :id="mapId" class="embedded-map-item" @update="update"></div>
     </div>
-    <k-plain-license prefix="map" />
   </div>
 </template>
 

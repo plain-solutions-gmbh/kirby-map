@@ -3,8 +3,8 @@
     "description": "Geolocation field & map block: All you need for a map on your website",
     "type": "kirby-plugin",
     "version": "2.1.9",
+    "homepage": "https://github.com/plain-solutions-gmbh/",
     "license": "MIT",
-    "homepage": "https://plain-solutions.net/906071",
     "authors": [
         {
             "name": "Roman Gsponer",
@@ -16,11 +16,5 @@
     },
     "extra": {
         "title": "Map Suite"
-    },
-    "funding": [
-        {
-            "type": "PayPal",
-            "url": "https://www.paypal.com/donate/?hosted_button_id=LBCLZVHS4K2R6"
-        }
-    ]
+    }
 }

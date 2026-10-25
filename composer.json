@@ -2,7 +2,7 @@
     "name": "plain/kirby-map",
     "description": "Geolocation field & map block: All you need for a map on your website",
     "type": "kirby-plugin",
-    "version": "2.1.9",
+    "version": "2.1.10",
     "homepage": "https://github.com/plain-solutions-gmbh/",
     "license": "MIT",
     "authors": [

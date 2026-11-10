@@ -20,6 +20,15 @@
     - size of the Icon (100% = original size)
     - popup: text and horizontal offset to the location
 
+## Compatibility
+
+| Kirby | Plugin version | Branch |
+|-------|----------------|--------|
+| 6     | 3.x | [`kirby-6`](https://github.com/plain-solutions-gmbh/kirby-map/tree/kirby-6) |
+| 4 / 5 | 2.x | [`master`](https://github.com/plain-solutions-gmbh/kirby-map/tree/master) |
+
+Composer installs the matching version automatically. For a manual installation, download the branch that fits your Kirby version.
+
 ## Installation
 
 **Manually**

@@ -33,7 +33,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style>
 .marker-item {
   display: flex;
   align-items: center;

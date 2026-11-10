@@ -1,4 +1,5 @@
 {
+  "name": "kirby-map",
   "private": true,
   "scripts": {
     "dev": "kirbyup src/index.js --watch",
@@ -12,7 +13,7 @@
     "eslint": "^8.9.0",
     "eslint-config-prettier": "^8.4.0",
     "eslint-plugin-vue": "^8.5.0",
-    "kirbyup": "^0.22.3",
+    "kirbyup": "^4.0.0-beta.1",
     "prettier": "^2.5.1"
   }
 }

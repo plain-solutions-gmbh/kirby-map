@@ -1,11 +1,10 @@
 <template>
   <k-dialog
-    class="k-dialog"
+    class="k-geolocation-search-dialog"
     v-bind="$props"
     :submit-button="false"
     size="medium"
-    @cancel="$emit('cancel')"
-    @submit="send()"
+    @cancel="cancel"
   >
     <k-text-field
       class="k-geolocation-search"
@@ -27,13 +26,14 @@
 
 <script>
 export default {
-  extends: "k-dialog",
+  mixins: ["dialog"],
   props: {
     token: {
       type: String,
       required: true,
     },
   },
+  emits: ["select"],
   data() {
     return {
       geoData: [],
@@ -88,9 +88,8 @@ export default {
     },
 
     selectDropdown(selection) {
-      delete selection.type;
-      delete selection.text;
-      this.$emit("input", selection);
+      const { name, lat, lng } = selection;
+      this.$emit("select", { name, lat, lng });
     },
   },
 };

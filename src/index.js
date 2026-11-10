@@ -12,6 +12,6 @@ window.panel.plugin("plain/map", {
     geolocation: Geolocation,
   },
   components: {
-    geolocationSearchDialog: SearchDialog,
+    "k-geolocation-search-dialog": SearchDialog,
   },
 });

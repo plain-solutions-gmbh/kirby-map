@@ -59,11 +59,11 @@ export default {
 
   computed: {
     mapId() {
-      return `map-${this._uid}`;
+      return `map-${this.$.uid}`;
     },
 
     center() {
-      if (!this.content.center || this.content.center.length < 1) {
+      if (!this.content.center || Object.keys(this.content.center).length < 1) {
         return [0, 20];
       }
 
@@ -73,7 +73,7 @@ export default {
     },
 
     marker() {
-      return this.content.marker.map(({ content }) => {
+      return (this.content.marker ?? []).map(({ content }) => {
         const imgSize = content.image?.[0]?.info?.split(" × ") ?? [0, 0];
 
         return {
@@ -183,7 +183,7 @@ export default {
           });
       });
 
-      this.toggleLock(this.content.center.length === 0);
+      this.toggleLock(Object.keys(this.content.center ?? {}).length === 0);
 
       this.map.on("dragend", () => {
         this.newCenter = true;
@@ -221,7 +221,6 @@ export default {
           .addTo(this.map);
 
         curMarker.getElement().addEventListener("click", () => {
-          const _this = this;
           const fieldset = this.markerFieldset();
           const value = this.$helper.object.clone(
             this.content.marker[i].content
@@ -231,19 +230,15 @@ export default {
             component: "k-form-drawer",
             props: this.$helper.object.merge(fieldset, { value }),
             on: {
-              input(value) {
-                _this.content.marker[i].content = value;
-                _this.$emit("update", _this.content);
-              },
+              input: (value) => this.updateMarker(i, value),
             },
           });
         });
 
         curMarker.on("dragend", () => {
-          const latlng = curMarker.getLngLat().wrap();
-          this.content.marker[i].content.coordinates.lat = latlng.lat;
-          this.content.marker[i].content.coordinates.lng = latlng.lng;
-          this.$emit("update", this.content);
+          const { lat, lng } = curMarker.getLngLat().wrap();
+          const coordinates = this.content.marker[i].content.coordinates;
+          this.updateMarker(i, { coordinates: { ...coordinates, lat, lng } });
         });
 
         this.attachedMarker.push(curMarker);
@@ -279,14 +274,25 @@ export default {
 
       return fieldset;
     },
+    updateMarker(index, content) {
+      this.update({
+        marker: this.content.marker.map((marker, i) =>
+          i === index
+            ? { ...marker, content: { ...marker.content, ...content } }
+            : marker
+        ),
+      });
+    },
     setError(msg) {
       this.fail = this.$t("maps.error");
       console.error("Kirby-Map: " + msg);
     },
     setNewCenter() {
-      this.content.center = this.map.getCenter().wrap();
-      this.content.zoom = this.map.getZoom();
-      this.$emit("update", this.content);
+      const { lat, lng } = this.map.getCenter().wrap();
+      this.update({
+        center: { ...this.content.center, lat, lng },
+        zoom: this.map.getZoom(),
+      });
       this.newCenter = false;
     },
     toggleLock(state = null) {
@@ -304,12 +310,10 @@ export default {
         this.field("marker").endpoints.field + "/fieldsets/marker"
       );
       this.wait = false;
-      newMarker.content.coordinates = this.map.getCenter().wrap();
-      this.content.marker.push(newMarker);
+      const { lat, lng } = this.map.getCenter().wrap();
+      newMarker.content.coordinates = { name: "", lat, lng };
 
-      this.setMarker();
-
-      this.$emit("update", this.content);
+      this.update({ marker: [...(this.content.marker ?? []), newMarker] });
     },
   },
 };

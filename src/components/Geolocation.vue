@@ -80,11 +80,9 @@ export default {
     };
   },
 
-  computed: {
-    mapId() {
-      return `map-${this._uid}`;
-    },
+  emits: ["input"],
 
+  computed: {
     location() {
       return {
         name: this.value?.name ?? this.default?.name ?? "",
@@ -97,16 +95,15 @@ export default {
   methods: {
     openSearch() {
       this.searchError = "maps.search.empty";
-      const _this = this;
       this.$panel.dialog.open({
-        component: "geolocationSearchDialog",
+        component: "k-geolocation-search-dialog",
         props: {
           token: this.token,
         },
         on: {
-          input(val) {
-            _this.$emit("input", val);
-            _this.$panel.dialog.close();
+          select: (val) => {
+            this.$emit("input", val);
+            this.$panel.dialog.close();
           },
         },
       });
